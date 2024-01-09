@@ -113,11 +113,11 @@ export default function Login() {
               <p className='text-red-400 font-semibold text-xs mt-2'>{passwordError}</p>
             </div>
 
-            <button onClick={handleSubmit(onSubmit)}
-              className='rounded bg-[#5c9ead] w-full py-4 text-gray-300 font-bold flex items-center justify-center'
+            <button onClick={handleSubmit(onSubmit)} className='rounded bg-[#5c9ead] w-full py-4 
+              text-gray-300 font-bold flex items-center justify-center hover:scale-[1.02]'
             >
               {!isLoading ? (
-                <p className='h-[25px]'>Login</p>
+                <p className='h-[25px]'>Log In</p>
               ) : (
                 <div className='h-[25px]'>
                   <svg viewBox="0 0 100 100" className='loading h-full stroke-[#f2f2f2]'>

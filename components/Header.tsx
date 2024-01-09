@@ -51,7 +51,7 @@ export default function Header() {
 
           <Link href={'/signup'}>
             <button className='text-gray-300 px-6 py-1.5 font-semibold rounded-full hover:scale-110'>
-              Sign Up
+              Sign up
             </button>
           </Link>
         </div>
