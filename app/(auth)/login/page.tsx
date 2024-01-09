@@ -8,21 +8,28 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { FaLock, FaUser } from 'react-icons/fa';
 
+import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 type Inputs = {
   email: string;
   password: string;
 }
 
-export default function page() {
+export default function Login() {
 
   let [emailError, setEmailError] = useState<string>('');
   let [passwordError, setPasswordError] = useState<string>('');
 
+  let [serverError, setServerError] = useState<string>('');
+
   let [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { register, handleSubmit } = useForm<Inputs>();
+  const searchparam =  useSearchParams();
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<Inputs> = (formData) => {
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
 
     if (formData.email.length === 0) {
       setEmailError('Please enter your email');
@@ -45,7 +52,24 @@ export default function page() {
     }
 
     setIsLoading(true);
-    console.log(formData);
+    const res = await axios.post('/api/auth/login', formData);
+
+    if (res.data.error) {
+      if (res.data.error.message === 'Invalid login credentials') {
+        setServerError('Please check your email or password!');
+      } else {
+        setServerError(res.data.error.message);   
+      }
+    } else {
+      if (searchparam.get('redirect')) {
+        router.push(searchparam.get('redirect') as string);
+      } else {
+        router.push('/');
+      }
+    }
+    router.refresh();
+
+    setIsLoading(false);
   }
 
   const loginGoogle = () => {
@@ -55,12 +79,14 @@ export default function page() {
 
   return (
     <div className='h-screen w-full'>
-      <div className='w-full h-full flex items-center justify-center lg:space-x-20 px-4'>
+      <div className='w-full h-full flex items-center justify-center lg:space-x-20'>
         <div className='lg:block hidden'>
-          <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} className='w-[400px]' />
+          <Link href={'/'}>
+            <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} className='w-[400px]' />
+          </Link>
         </div>
 
-        <div className='w-[500px] h-fit lg:bg-[#363636]/10 p-8 flex flex-col items-center'>
+        <div className='w-[500px] h-fit lg:bg-[#363636]/20 rounded p-8 flex flex-col items-center'>
           <h4 className='text-2xl font-semibold text-gray-200 text-center lg:block hidden'>Login</h4>
           <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
             className='w-[100px] items-center lg:hidden block' 
@@ -94,7 +120,7 @@ export default function page() {
                 <p className='h-[25px]'>Login</p>
               ) : (
                 <div className='h-[25px]'>
-                  <svg viewBox="0 0 100 100" className='loading h-full'>
+                  <svg viewBox="0 0 100 100" className='loading h-full stroke-[#f2f2f2]'>
                     <circle cx="50" cy="50" r="40"  />
                   </svg>
                 </div>
@@ -103,16 +129,20 @@ export default function page() {
           </form>
 
           <div className='w-full mt-5 flex flex-col'>
-            <button onClick={loginGoogle} 
-              className='w-full bg-neutral-500/10 hover:bg-neutral-500/20 font-semibold 
-              text-gray-300 py-4 rounded flex items-center justify-center'
-            >
-              <Image src={'/google-logo.png'} alt='google logo' width={1000} height={1000} 
-                className='w-[20px] mr-2'
-              />
-              Login with Google
-            </button>
-            <p className='mt-5 text-center text-gray-300 font-semibold'>
+            <div className='w-full flex flex-col h-20'>
+              <button onClick={loginGoogle} className='w-full bg-neutral-500/10 hover:bg-neutral-500/20 
+                font-semibold text-gray-300 py-4 rounded flex items-center justify-center'
+              >
+                <Image src={'/google-logo.png'} alt='google logo' width={1000} height={1000} 
+                  className='w-[20px] mr-2'
+                />
+                Login with Google
+              </button>
+              
+              <p className='text-red-400 font-bold text-sm text-center mt-2'>{serverError}</p>
+            </div>
+            
+            <p className='mt-3 text-center text-gray-300 font-semibold'>
               Don't have account ? {' '}
               <Link href={'/signup'} className='text-[#5c9ead] hover:underline'>
                 Sign up

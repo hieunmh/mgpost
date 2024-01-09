@@ -14,10 +14,12 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.39.2",
+    "axios": "^1.6.5",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.3",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
     "tailwind-merge": "^2.2.0",
     "zustand": "^4.4.7"
