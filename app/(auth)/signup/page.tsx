@@ -113,9 +113,11 @@ export default function Login() {
         <div className='w-[500px] h-fit lg:bg-[#363636]/20 rounded p-8 flex flex-col items-center'>
           <h4 className='text-2xl font-semibold text-gray-200 text-center lg:block hidden'>Sign up</h4>
 
-          <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
-            className='w-[100px] items-center lg:hidden block' 
-          />
+          <Link href={'/'}>
+            <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
+              className='w-[100px] items-center lg:hidden block' 
+            />
+          </Link>
 
           <form className='w-full mt-10 space-y-3'>
             <div className='rounded h-20'>
@@ -124,7 +126,7 @@ export default function Login() {
               >
                 <FaUser className='text-gray-200 ml-4 text-xl' />
                 <input type='email' placeholder='Email' {...register('email')}
-                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 
+                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-2 rounded' 
                 />
               </div>
               <p className='text-red-400 font-semibold text-xs mt-2'>{emailError}</p>
@@ -136,7 +138,7 @@ export default function Login() {
                 <FaPhoneAlt className='text-gray-200 ml-4 text-xl' />
                 <input type='text' placeholder='Phone' {...register('phone')} maxLength={10}
                   pattern='[0-9]*' onKeyDown={(e) => !/[0-9]/.test(e.key) && e.key != 'Backspace' && e.preventDefault()}
-                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 
+                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-2 rounded' 
                 />
               </div>
               <p className='text-red-400 font-semibold text-xs mt-2'>{phoneError}</p>
@@ -147,7 +149,7 @@ export default function Login() {
                 ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}>
                 <FaLock className='text-gray-200 ml-4 text-xl' />
                 <input type='password' placeholder='Password' {...register('password')}
-                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 
+                  className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-2 rounded' 
                 />
               </div>
               <p className='text-red-400 font-semibold text-xs mt-2'>{passwordError}</p>
