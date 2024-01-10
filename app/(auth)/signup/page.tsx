@@ -85,11 +85,11 @@ export default function Login() {
       // const { data: updateData, error } = await supabase.from('users').upsert({ }).eq('id',  res.data.data.user.id);
 
       // if (error) console.log(error);
-      // if (searchparam.get('redirect')) {
-      //   router.push(searchparam.get('redirect') as string);
-      // } else {
-      //   router.push('/');
-      // }
+      if (searchparam.get('redirect')) {
+        router.push(searchparam.get('redirect') as string);
+      } else {
+        router.push('/');
+      }
     }
     router.refresh();
 
@@ -112,13 +112,16 @@ export default function Login() {
 
         <div className='w-[500px] h-fit lg:bg-[#363636]/20 rounded p-8 flex flex-col items-center'>
           <h4 className='text-2xl font-semibold text-gray-200 text-center lg:block hidden'>Sign up</h4>
+
           <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
             className='w-[100px] items-center lg:hidden block' 
           />
 
           <form className='w-full mt-10 space-y-3'>
             <div className='rounded h-20'>
-              <div className='flex items-center bg-neutral-500/10 rounded'>
+              <div className={`flex items-center border-b ${emailError 
+                ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}
+              >
                 <FaUser className='text-gray-200 ml-4 text-xl' />
                 <input type='email' placeholder='Email' {...register('email')}
                   className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 
@@ -128,7 +131,8 @@ export default function Login() {
             </div>
 
             <div className='rounded h-20'>
-              <div className='flex items-center bg-neutral-500/10 rounded'>
+              <div className={`flex items-center border-b ${phoneError 
+                ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}>
                 <FaPhoneAlt className='text-gray-200 ml-4 text-xl' />
                 <input type='text' placeholder='Phone' {...register('phone')} maxLength={10}
                   pattern='[0-9]*' onKeyDown={(e) => !/[0-9]/.test(e.key) && e.key != 'Backspace' && e.preventDefault()}
@@ -139,7 +143,8 @@ export default function Login() {
             </div>
 
             <div className='rounded h-20'>
-              <div className='flex items-center bg-neutral-500/10 rounded'>
+              <div className={`flex items-center border-b ${passwordError 
+                ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}>
                 <FaLock className='text-gray-200 ml-4 text-xl' />
                 <input type='password' placeholder='Password' {...register('password')}
                   className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 

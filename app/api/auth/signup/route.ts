@@ -18,6 +18,19 @@ export async function POST(request: Request) {
   const res = await supabase.auth.signUp({
     email, password
   })
-  
+
+  if (res.error) return NextResponse.json({ error: res.error });
+
+  const  { data: updateUser, error } = await supabase.auth.updateUser({ phone: '84' + phone.substring(1) });
+
+  if (error) return NextResponse.json({ error: res.error });
+
+  await supabase.from('users').insert({ 
+    id: res.data.user?.id as string, 
+    email: res.data.user?.email,
+    phone: '84' + phone.substring(1),
+    role: 'customer',
+  })
+
   return NextResponse.json({ data: res.data, error: res.error });
 }

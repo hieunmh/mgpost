@@ -61,13 +61,13 @@ export default function Login() {
         setServerError(res.data.error.message);   
       }
     } else {
+      router.refresh();
       if (searchparam.get('redirect')) {
         router.push(searchparam.get('redirect') as string);
       } else {
         router.push('/');
       }
     }
-    router.refresh();
 
     setIsLoading(false);
   }
@@ -94,7 +94,9 @@ export default function Login() {
 
           <form className='w-full mt-10 space-y-3'>
             <div className='rounded h-20'>
-              <div className='flex items-center bg-neutral-500/10 rounded'>
+              <div className={`flex items-center border-b ${emailError 
+                ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}
+              >
                 <FaUser className='text-gray-200 ml-4 text-xl' />
                 <input type='email' placeholder='Email' {...register('email')}
                   className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 
@@ -104,7 +106,9 @@ export default function Login() {
             </div>
 
             <div className='rounded h-20'>
-              <div className='flex items-center bg-neutral-500/10 rounded'>
+              <div className={`flex items-center border-b ${passwordError 
+                ? 'border-b-red-400' : 'border-b-neutral-500/50'}`}
+              >
                 <FaLock className='text-gray-200 ml-4 text-xl' />
                 <input type='password' placeholder='Password' {...register('password')}
                   className='w-full outline-none font-semibold bg-transparent text-gray-200 px-4 py-4 rounded' 

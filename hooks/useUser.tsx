@@ -1,4 +1,4 @@
-import { UserInfo } from '@/types/type';
+import { UserInfoType } from '@/types/type';
 import { User } from '@supabase/auth-helpers-nextjs';
 import { useSessionContext, useUser as useSupaUser } from '@supabase/auth-helpers-react';
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -7,7 +7,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 type UserContextType = {
   accessToken: string | null;
   user: User | null;
-  userInfo: UserInfo |null;
+  userInfo: UserInfoType |null;
   isLoading: boolean;
 }
 
@@ -24,29 +24,31 @@ export const MyUserContextProvider = (props: Props) => {
   const accessToken = session?.access_token ?? null;
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
 
-  const getUserInfo = () => supabase.from('users').select('*').single();
+  const getUserInfo = () => supabase.from('users').select('*').eq('id', user?.id).single();
 
   useEffect(() => {
-    if (user && !isLoadingData && !userInfo) {
-      setIsLoadingData(true);
+    
+    const fetch = async () => {
+      if (user && !isLoadingData && !userInfo) {
+        setIsLoadingData(true);
 
-      Promise.allSettled([getUserInfo()]).then(res => {
-        const userInfoPromise = res[0];
+        const userInfoPromise = await getUserInfo();
 
-        if (userInfoPromise.status === 'fulfilled') {
-          setUserInfo(userInfoPromise.value.data);
-        }
+        setUserInfo({ ...userInfoPromise.data });
 
         setIsLoadingData(false);
-      })
-    } else if (!user && !isLoadingUser && !isLoadingData) {
-      setUserInfo(null);
+      } else if (!user && !isLoadingData && !isLoadingUser) {
+        setUserInfo(null);
+      }
     }
+
+    fetch();
+
   }, [user, isLoadingUser]);
 
-  const value = { accessToken, user, userInfo, isLoading: isLoadingUser };
+  const value = { accessToken, user, userInfo, isLoading: isLoadingData };
 
   return <UserContext.Provider value={value} {...props} />
 }

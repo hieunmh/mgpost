@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@/hooks/useUser';
-import { UserInfo } from '@/types/type';
+import { UserInfoType } from '@/types/type';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,11 +13,13 @@ import { FaUser } from 'react-icons/fa';
 export default function Header() {
 
 
-  const { user, isLoading } = useUser();
+  const { user, userInfo, isLoading } = useUser();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
   let [loading, setLoading] = useState<boolean>(false);
+
+  const [userDetail, setUserDetail] = useState<UserInfoType | null>(null);
 
   const handleLogout = async () => {
     setLoading(true);
@@ -33,6 +35,12 @@ export default function Header() {
     }
     
   }
+
+  useEffect(() => {
+    if (isLoading || !userInfo) return;
+
+    setUserDetail(userInfo);
+  }, [userInfo, isLoading]);
 
 
   return (
@@ -78,7 +86,7 @@ export default function Header() {
             <div className='absolute -right-1 top-12 font-semibold bg-[#363636] px-4 py-2 rounded text-gray-200/60 
               shadow-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-500'
             >
-              {user.email}
+              {userDetail?.email} 
             </div>
           </button>
         </div>
