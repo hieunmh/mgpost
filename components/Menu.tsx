@@ -59,7 +59,7 @@ export default function Menu({ userDetail } : { userDetail: UserInfoType | null 
           <button onClick={() => router.push('/account')} className='bg-gray-200 rounded-full relative group'>
             <FaUser size={17} className='m-2.5' />
             <div className='absolute right-12 top-0 font-semibold bg-[#363636] px-4 py-2 rounded text-gray-200/60 
-              shadow-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-500'
+              shadow-lg text-[14px] invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-500'
             >
               {userDetail?.email} 
             </div>

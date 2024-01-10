@@ -1,7 +1,6 @@
 'use client';
 
 import { useUser } from '@/hooks/useUser';
-import { UserInfoType } from '@/types/type';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import Link from 'next/link';
