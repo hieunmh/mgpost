@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function Hero() {
   return (
-    <section className='flex flex-col gap-4 pb-12 pt-4 text-center lg:items-center lg:gap-8 px-2 lg:px-0 lg:py-20'>
-      <div className='flex flex-1 flex-col items-center gap-4 text-center lg:gap-8'>
+    <section className='flex flex-col gap-4 pb-12 pt-20 text-center lg:items-center px-2 lg:px-0'>
+      <div className='flex flex-1 flex-col items-center gap-4 text-center'>
         <div className='space-y-4'>
           <h1 className='text-xl font-bold lg:text-5xl text-gray-300'>
             A trusted provide of delivery services

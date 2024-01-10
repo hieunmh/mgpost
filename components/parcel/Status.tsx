@@ -10,9 +10,8 @@ export default function Status({ status } : { status: PackageStatusType }) {
   const dateTime = new Date(status.created_at);
 
   return (
-    <div className='w-full text-gray-300 flex justify-between items-center'>
-
-      <div className='flex space-x-5 font-semibold'>
+    <div className='w-full text-gray-300 flex justify-between items-center space-x-5 text-xs md:text-base'>
+      <div className='flex items-center space-x-5 font-semibold'>
         <FaLocationDot size={24} />
         <p>{status.current_location}</p>
       </div>

@@ -50,15 +50,16 @@ export default function ParcelStatus() {
     <div className='px-5 w-full'>
       <div className='w-full flex flex-col items-center justify-center'>
         <div className='w-full flex flex-col text-center space-y-3'>
-          <p className='text-gray-200 font-bold text-3xl'>Track your parcel</p>
+          <p className='text-gray-200 font-bold text-xl sm:text-3xl'>Track your parcel</p>
 
-          <p className='text-neutral-500/90 font-medium text-lg'>
+          <p className='text-neutral-500/90 font-medium text-xs sm:text-lg'>
             Tracking your parcel by enter your parcel code below
           </p>
 
           <div className='flex items-center justify-center space-x-4'>
             <input type="text" placeholder='Enter your parcel code' onChange={(e) => setParcelCode(e.target.value)}
-              className='py-3 px-5 outline-none font-semibold rounded bg-neutral-500/50 text-gray-200 w-[500px]'
+              className='py-3 px-5 outline-none h-12 text-xs sm:text-base font-semibold 
+              rounded bg-neutral-500/50 text-gray-200 w-[500px]'
             />
             <button onClick={getParcel} className=' bg-gray-200 h-12 px-4 rounded'>
               {loading ? (
@@ -76,7 +77,7 @@ export default function ParcelStatus() {
           </div>
         </div>
 
-        <div className='w-full sm:px-10 my-5 rounded flex items-center justify-center'>
+        <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>
           <div className={`bg-neutral-500/20 h-full w-[1100px] rounded p-5 relative transition-all duration-500
             ${showParcelStatus && parcelStatus ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
@@ -86,22 +87,22 @@ export default function ParcelStatus() {
             </button>
               
             <div className='w-full flex justify-around text-gray-300 font-semibold'>
-              <div className='text-center space-y-3'>
+              <div className='text-center text-[10px] md:text-base space-y-3'>
                 <p>Send Address</p>
                 <p className='font-normal'>{parcelStatus?.packageDetails.sender_address?.split('-').pop()}</p>
               </div>
 
-              <div className='text-center space-y-3'>
+              <div className='text-center text-[10px] md:text-base space-y-3'>
                 <p>Receive Address</p>
                 <p className='font-normal'>{parcelStatus?.packageDetails.receiver_address.split('-').pop()}</p>
               </div>
 
-              <div className='text-center space-y-3'>
+              <div className='text-center text-[10px] md:text-base space-y-3'>
                 <p>Weight</p>
                 <p className='font-normal'>{parcelStatus?.packageDetails.totalWeight} g</p>
               </div>
 
-              <div className='text-center space-y-2'>
+              <div className='text-center text-[10px] md:text-base space-y-2'>
                 <p>Status</p>
                 <p className='bg-green-700 rounded-full py-1 px-3'>
                   {parcelStatus?.packageStatus[parcelStatus.packageStatus.length - 1].status}
