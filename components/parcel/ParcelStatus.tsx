@@ -23,7 +23,7 @@ export default function ParcelStatus() {
   const { showParcelStatus, setShowParcelStatus } = useParcelStatus();
 
   let [parcelStatus, setParcelStatus] = 
-    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[] } | null>(null);
+    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[] }>();
 
   const getParcel = async () => {
     if (!parcelCode) return;
@@ -35,20 +35,14 @@ export default function ParcelStatus() {
       toast.error('Parcel not found!')
     } else {
       setParcelStatus(res.data.data);
+      let length = parcelStatus ? parcelStatus.packageStatus.length : 1;
+      setHeight(40 * (length - 1) + 48 * length + 344);
       setShowParcelStatus(true);
     }
 
     setLoading(false);
   }
 
-  useEffect(() => {
-    if (parcelStatus && parcelStatus?.packageStatus) {
-      let length = parcelStatus.packageStatus.length;
-      setHeight(40 * (length - 1) + 48 * length + 344);
-    }
-
-    else setHeight(168);
-  })
 
   return (
     <div className='px-5 w-full transition-all duration-500' style={{ height: height }}>
@@ -83,12 +77,11 @@ export default function ParcelStatus() {
         </div>
 
         <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>
-          <div className={`bg-neutral-500/10 w-[1100px] rounded p-5 relative transition-all duration-500
-            ${showParcelStatus && parcelStatus ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+          <div className={`bg-neutral-500/10 w-[1100px] rounded p-5 relative transition
+            ${showParcelStatus && parcelStatus ? 'opacity-100 visible duration-1000' : 'opacity-0 invisible duration-200'}`}
           >
             <button onClick={() => {
               setShowParcelStatus(false);
-              setParcelStatus(null)
               setHeight(168);
             }}
               className='absolute text-black -top-[10px] -right-[10px] bg-neutral-500 rounded-full'>

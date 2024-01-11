@@ -47,9 +47,11 @@ export default function Header() {
 
 
   return (
-    <div className='h-[100px] w-full p-5 flex justify-between items-center'>
+    <div className='h-[100px] w-full p-5 flex justify-between items-center bg-transparent'>
       <div className=''>
-        <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} className='w-[100px]' />
+        <Link href={'/'}>
+          <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} className='hidden sm:block sm:w-[100px]' />
+        </Link>
       </div>
 
       <div className='lg:block hidden'>
@@ -86,7 +88,7 @@ export default function Header() {
             </button>
 
             <button onClick={() => router.push('/account')} className='bg-gray-200 rounded-full relative group'>
-              <FaUser size={17} className='m-2.5' />
+              <FaUser size={16} className='m-2.5' />
               <div className='absolute -right-1 top-12 font-semibold bg-[#363636] px-4 py-2 rounded text-gray-200/60 
                 shadow-lg invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-500'
               >
@@ -99,7 +101,7 @@ export default function Header() {
 
       <div className='lg:hidden block overflow-x-hidden'>
         <button className='bg-gray-200 rounded-full' onClick={toggleMenu}>
-          <IoClose size={25} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-0' : ' -rotate-[135deg]'}`} />
+          <IoClose size={24} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-0' : ' -rotate-[135deg]'}`} />
         </button>
       </div>
 
