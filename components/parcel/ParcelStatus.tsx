@@ -30,10 +30,9 @@ export default function ParcelStatus() {
 
     setLoading(true);
     const res = await axios.get(`/api/parcel/parcelStatus?id=${parcelCode}`);
-    console.log(res.data);
 
     if (res.data.error) {
-      toast.error(res.data.error as string)
+      toast.error('Parcel not found!')
     } else {
       setParcelStatus(res.data.data);
       setShowParcelStatus(true);
@@ -43,10 +42,12 @@ export default function ParcelStatus() {
   }
 
   useEffect(() => {
-    if (parcelStatus?.packageStatus) {
+    if (parcelStatus && parcelStatus?.packageStatus) {
       let length = parcelStatus.packageStatus.length;
       setHeight(40 * (length - 1) + 48 * length + 344);
     }
+
+    else setHeight(168);
   })
 
   return (
@@ -56,7 +57,8 @@ export default function ParcelStatus() {
           <p className='text-gray-200 font-bold text-xl sm:text-3xl'>Track your parcel</p>
 
           <p className='text-neutral-500/90 font-medium text-xs sm:text-lg'>
-            Tracking your parcel by enter your parcel code below
+            Tracking your parcel by enter your parcel {' '}
+            <span className='text-[#5c9ead] underline cursor-pointer'>code</span> below
           </p>
 
           <div className='flex items-center justify-center space-x-4'>
@@ -81,7 +83,7 @@ export default function ParcelStatus() {
         </div>
 
         <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>
-          <div className={`bg-neutral-500/10 w-[1100px] rounded p-5 relative transition-all duration-100
+          <div className={`bg-neutral-500/10 w-[1100px] rounded p-5 relative transition-all duration-500
             ${showParcelStatus && parcelStatus ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
             <button onClick={() => {
@@ -117,8 +119,7 @@ export default function ParcelStatus() {
               </div>
             </div>
 
-            <div className='w-full mt-10 space-y-10 transition-all duration-500'
-            >
+            <div className='w-full mt-10 space-y-10 transition-all duration-500'>
               {parcelStatus?.packageStatus.map((status, key) => (
                 <Status key={status.id} index={key} status={status} />
               ))}

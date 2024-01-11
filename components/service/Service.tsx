@@ -14,8 +14,8 @@ export default function Service() {
 
         <div className='flex flex-col items-center space-y-5 my-5'>
           <FaUser size={40} />
-          <p className='font-bold text-[#5c9ead] text-2xl lg:text-4xl'>611k</p>
-          <p className='text-sm sm:text-xl font-semibold'>Happy Clients</p>
+          <p className='font-bold text-[#5c9ead] text-2xl lg:text-4xl'>611K</p>
+          <p className='text-sm sm:text-xl font-semibold'>Happy Customers</p>
         </div>
 
         <div className='flex flex-col items-center space-y-5 my-5'>

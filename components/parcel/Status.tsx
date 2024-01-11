@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { PackageStatusType } from '@/types/type';
-import { FaLocationDot } from 'react-icons/fa6';
+import { TiLocation } from 'react-icons/ti';
 
 export default function Status({ status, index } : { status: PackageStatusType, index: number }) {
 
@@ -14,7 +14,7 @@ export default function Status({ status, index } : { status: PackageStatusType, 
     ${index == 0 ? 'text-green-600' : 'text-gray-300'}`}
     >
       <div className='flex items-center space-x-5 font-semibold'>
-        <FaLocationDot size={24} />
+        <TiLocation size={24} />
         <p>{status.current_location}</p>
       </div>
 

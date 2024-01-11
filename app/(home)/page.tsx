@@ -13,10 +13,9 @@ export default function Home() {
 
       <ParcelStatus />
 
-      <Footer />
-
       <Service />
 
+      <Footer />
     </div>
   )
 }
