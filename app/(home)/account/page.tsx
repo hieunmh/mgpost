@@ -16,10 +16,8 @@ export default function Account() {
         {userInfo?.role?.includes('staff') && <StaffSidebar />}
       </div>
 
-      <div className='flex flex-col'>
-        <div>
-
-        </div>
+      <div className=''>
+        
       </div>
     </div>
   )

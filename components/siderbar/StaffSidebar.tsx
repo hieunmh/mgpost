@@ -27,14 +27,14 @@ export default function StaffSidebar({}) {
             {userInfo?.role}
           </p>
 
-          <button className='w-full rounded py-3 bg-neutral-500/50 flex 
+          <button className='w-full rounded py-3 bg-neutral-500/20 hover:bg-neutral-500/30 flex 
             space-x-2 items-center justify-center text-lg text-gray-300'
           >
             <HiViewGrid size={30} />
             <p className='hidden sm:block font-semibold text-sm md:text-base'>Overview</p>
           </button>
 
-          <button className='w-full rounded py-3 bg-neutral-500/20 flex 
+          <button className='w-full rounded py-3 bg-neutral-500/20 hover:bg-neutral-500/30 flex 
             space-x-2 items-center justify-center text-lg text-gray-300'
           >
             <BiSolidPackage size={30} />

@@ -22,15 +22,16 @@ export default function Menu({ userDetail } : { userDetail: UserInfoType | null 
     setLoading(true);
     const { error } = await supabaseClient.auth.signOut();
     setLoading(false);
-
-    router.refresh();
+    setShowMenu(false);
 
     if (error) {
       toast.error(error.message);
     } else {
-      setShowMenu(false);
       toast.success('Logged out!');
     }
+
+    router.push('/');
+    router.refresh();
     
   }
 
@@ -56,7 +57,9 @@ export default function Menu({ userDetail } : { userDetail: UserInfoType | null 
             )}
           </button>
 
-          <button onClick={() => router.push('/account')} className='bg-gray-200 rounded-full relative group'>
+          <button onClick={() => { router.push('/account'); setShowMenu(false) }} 
+            className='bg-gray-200 rounded-full relative group'
+          >
             <FaUser size={16} className='m-2.5' />
             <div className='absolute right-12 top-0 font-semibold bg-[#363636] px-4 py-2 rounded text-gray-200/60 
               shadow-lg text-[14px] invisible opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-500'

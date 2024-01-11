@@ -13,7 +13,7 @@ export default function Status({ status, index } : { status: PackageStatusType, 
     <div className={`w-full  flex justify-between items-center space-x-5 text-xs md:text-base
     ${index == 0 ? 'text-green-600' : 'text-gray-300'}`}
     >
-      <div className='flex items-center space-x-5 font-semibold'>
+      <div className='flex items-center space-x-2 font-semibold'>
         <TiLocation size={24} />
         <p>{status.current_location}</p>
       </div>

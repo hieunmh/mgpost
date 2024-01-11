@@ -23,7 +23,7 @@ export default function ParcelStatus() {
   const { showParcelStatus, setShowParcelStatus } = useParcelStatus();
 
   let [parcelStatus, setParcelStatus] = 
-    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[] }>();
+    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]} | null>(null);
 
   const getParcel = async () => {
     if (!parcelCode) return;
@@ -35,14 +35,18 @@ export default function ParcelStatus() {
       toast.error('Parcel not found!')
     } else {
       setParcelStatus(res.data.data);
-      let length = parcelStatus ? parcelStatus.packageStatus.length : 1;
-      setHeight(40 * (length - 1) + 48 * length + 344);
       setShowParcelStatus(true);
     }
 
     setLoading(false);
   }
 
+  useEffect(() => {
+    if (parcelStatus && parcelStatus.packageStatus.length) {
+      let sttLength = parcelStatus.packageStatus.length;
+      setHeight(40 * (sttLength - 1) + 48 * sttLength + 344);
+    }
+  })
 
   return (
     <div className='px-5 w-full transition-all duration-500' style={{ height: height }}>
@@ -82,6 +86,7 @@ export default function ParcelStatus() {
           >
             <button onClick={() => {
               setShowParcelStatus(false);
+              setParcelStatus(null);
               setHeight(168);
             }}
               className='absolute text-black -top-[10px] -right-[10px] bg-neutral-500 rounded-full'>

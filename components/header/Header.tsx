@@ -4,19 +4,19 @@ import { useUser } from '@/hooks/useUser';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { FaUser } from 'react-icons/fa';
-import { IoClose, IoMenu } from 'react-icons/io5';
 import Menu from './Menu';
 import { useMenu } from '@/hooks/useMenu';
+import { TiPlus } from 'react-icons/ti';
 
 export default function Header() {
 
 
-  const { user, userInfo, isLoading } = useUser();
+  const { user, userInfo } = useUser();
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
@@ -30,27 +30,31 @@ export default function Header() {
     const { error } = await supabaseClient.auth.signOut();
     setLoading(false);
 
-    router.refresh();
 
     if (error) {
       toast.error(error.message);
     } else {
       toast.success('Logged out!');
     }
-  }
 
+    router.push('/');
+    router.refresh();
+  }
 
   const toggleMenu = () => {
     if (showMenu) setShowMenu(false);
     else setShowMenu(true);
   }
 
+  const pathname = usePathname();
 
   return (
     <div className='h-[100px] w-full p-5 flex justify-between items-center bg-transparent'>
       <div className=''>
         <Link href={'/'}>
-          <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} className='hidden sm:block sm:w-[100px]' />
+          <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
+            className={`w-[100px] ${pathname === '/account' ? 'hidden' : 'block'}`} 
+          />
         </Link>
       </div>
 
@@ -101,7 +105,7 @@ export default function Header() {
 
       <div className='lg:hidden block overflow-x-hidden'>
         <button className='bg-gray-200 rounded-full' onClick={toggleMenu}>
-          <IoClose size={24} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-0' : ' -rotate-[135deg]'}`} />
+          <TiPlus size={24} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-[135deg]' : 'rotate-0'}`} />
         </button>
       </div>
 
