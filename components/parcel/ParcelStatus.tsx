@@ -18,12 +18,12 @@ export default function ParcelStatus() {
 
   let [parcelCode, setParcelCode] = useState<string>('');
 
-  let [height, setHeight] = useState<number>();
+  let [height, setHeight] = useState<number>(0);
 
   const { showParcelStatus, setShowParcelStatus } = useParcelStatus();
 
   let [parcelStatus, setParcelStatus] = 
-    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[] }>();
+    useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[] } | null>(null);
 
   const getParcel = async () => {
     if (!parcelCode) return;
@@ -33,7 +33,7 @@ export default function ParcelStatus() {
     console.log(res.data);
 
     if (res.data.error) {
-      toast.error('Parcel not found!')
+      toast.error(res.data.error as string)
     } else {
       setParcelStatus(res.data.data);
       setShowParcelStatus(true);
@@ -43,12 +43,15 @@ export default function ParcelStatus() {
   }
 
   useEffect(() => {
-
+    if (parcelStatus?.packageStatus) {
+      let length = parcelStatus.packageStatus.length;
+      setHeight(40 * (length - 1) + 48 * length + 144);
+    }
   })
 
   return (
-    <div className='px-5 w-full'>
-      <div className='w-full flex flex-col items-center justify-center'>
+    <div className='px-5 w-full' style={{ height: height }}>
+      <div className='w-full flex flex-col items-center justify-center h-fit'>
         <div className='w-full flex flex-col text-center space-y-3'>
           <p className='text-gray-200 font-bold text-xl sm:text-3xl'>Track your parcel</p>
 
@@ -78,10 +81,15 @@ export default function ParcelStatus() {
         </div>
 
         <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>
-          <div className={`bg-neutral-500/20 h-full w-[1100px] rounded p-5 relative transition-all duration-500
+          <div className={`bg-neutral-500/20 w-[1100px] rounded p-5 relative transition-all duration-500
             ${showParcelStatus && parcelStatus ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            style={{ height: height }}
           >
-            <button onClick={() => setShowParcelStatus(false)}
+            <button onClick={() => {
+              setShowParcelStatus(false);
+              setParcelStatus(null)
+              setHeight(0);
+            }}
               className='absolute text-black -top-[10px] -right-[10px] bg-neutral-500 rounded-full'>
               <IoClose size={20} className='m-0.5' />
             </button>

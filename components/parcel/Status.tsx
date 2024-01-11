@@ -17,7 +17,11 @@ export default function Status({ status } : { status: PackageStatusType }) {
       </div>
 
       <div className='flex flex-col font-semibold text-center'>
-        <p>{dateTime.getDate()}/{dateTime.getMonth() + 1}/{dateTime.getFullYear()}</p>
+        <p>
+          {String(dateTime.getDate()).padStart(2, '0')}
+          /{String(dateTime.getMonth() + 1).padStart(2, '0')}
+          /{dateTime.getFullYear()}
+        </p>
         <p>{dateTime.toLocaleTimeString('en-US', { hour12: false })}</p>
       </div>
     </div>

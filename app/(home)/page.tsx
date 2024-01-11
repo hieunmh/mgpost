@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ParcelStatus from '@/components/parcel/ParcelStatus';
@@ -11,6 +12,8 @@ export default function Home() {
       <Hero />
 
       <ParcelStatus />
+
+      <Footer />
 
     </div>
   )
