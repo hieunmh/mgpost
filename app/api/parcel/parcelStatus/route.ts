@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     `
   ).eq('id', parcelID).order('created_at', {
     foreignTable: 'packageStatus',
-    ascending: true,
+    ascending: false,
   }).single();
 
   return NextResponse.json({ data: parcel.data, error: parcel.error });

@@ -1,8 +1,8 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import Header from '@/components/header/Header';
 import Hero from '@/components/Hero';
 import ParcelStatus from '@/components/parcel/ParcelStatus';
-import Image from 'next/image';
+import Service from '@/components/service/Service';
 
 export default function Home() {
   return (
@@ -14,6 +14,8 @@ export default function Home() {
       <ParcelStatus />
 
       <Footer />
+
+      <Service />
 
     </div>
   )

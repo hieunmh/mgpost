@@ -61,13 +61,14 @@ export default function Login() {
         setServerError(res.data.error.message);   
       }
     } else {
-      router.refresh();
       if (searchparam.get('redirect')) {
         router.push(searchparam.get('redirect') as string);
       } else {
         router.push('/');
       }
     }
+
+    router.refresh();
 
     setIsLoading(false);
   }

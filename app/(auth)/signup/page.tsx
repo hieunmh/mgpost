@@ -79,12 +79,7 @@ export default function Login() {
       } else {
         setServerError(res.data.error.message);   
       }
-    } else {
-      console.log(res.data);
-      
-      // const { data: updateData, error } = await supabase.from('users').upsert({ }).eq('id',  res.data.data.user.id);
-
-      // if (error) console.log(error);
+    } else {      
       if (searchparam.get('redirect')) {
         router.push(searchparam.get('redirect') as string);
       } else {
