@@ -1,7 +1,8 @@
 'use client';
 
+import TransactionStaff from '@/components/account/staff/transaction/TransactionStaff';
 import Header from '@/components/header/Header';
-import StaffSidebar from '@/components/siderbar/StaffSidebar';
+import TranStaffSidebar from '@/components/siderbar/staff/transaction/TranStaffSidebar';
 import { useUser } from '@/hooks/useUser';
 import React from 'react';
 
@@ -11,13 +12,13 @@ export default function Account() {
 
   return (
     <div className='w-full flex'>
-      <Header />
-      <div id='sidebar' className='absolute top-0 h-screen'>
-        {userInfo?.role?.includes('staff') && <StaffSidebar />}
+      <div id='sidebar' className='h-screen'>
+        {userInfo?.role === 'transaction staff' && <TranStaffSidebar />}
       </div>
 
-      <div className=''>
-        
+      <div className='w-full flex flex-col'>
+        <Header />
+        {userInfo?.role?.toLowerCase() == 'transaction staff' && <TransactionStaff />}
       </div>
     </div>
   )

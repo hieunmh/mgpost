@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import React from 'react'
+import Image from 'next/image';
+import React from 'react';
 
 export default function Hero() {
   return (
@@ -15,8 +15,8 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='flex flex-1 justify-center lg:justify-end'>
-        <Image src={'/delivery.png'} priority width={500} height={500} alt='Header image' />
+      <div className='flex justify-center items-center w-full'>
+        <Image src={'/delivery.png'} priority width={1000} height={1000} className='w- [1000px]' alt='Header image' />
       </div>
     </section>
   )

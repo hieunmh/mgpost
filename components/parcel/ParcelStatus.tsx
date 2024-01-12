@@ -11,7 +11,6 @@ import { IoClose } from 'react-icons/io5';
 import Status from './Status';
 import { useParcelStatus } from '@/hooks/useParcelStatus';
 
-
 export default function ParcelStatus() {
 
   let [loading, setLoading] = useState<boolean>(false);
@@ -29,7 +28,7 @@ export default function ParcelStatus() {
     if (!parcelCode) return;
 
     setLoading(true);
-    const res = await axios.get(`/api/parcel/parcelStatus?id=${parcelCode}`);
+    const res = await axios.get(`/api/parcel/parcelStatus?code=${parcelCode}`);
 
     if (res.data.error) {
       toast.error('Parcel not found!')
