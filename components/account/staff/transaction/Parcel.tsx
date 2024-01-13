@@ -36,7 +36,7 @@ export default function Parcel() {
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
-      className='w-full h-full rounded bg-neutral-500/10 p-5'
+      className='w-full h-full rounded bg-neutral-500/10 p-3 sm:p-5'
     >
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
@@ -51,7 +51,7 @@ export default function Parcel() {
         </div>
 
         <div className='w-full h-full rounded'>
-          <div className='w-full py-3 bg-[#5c9ead] rounded'>
+          <div className='w-full py-5 mb-5 bg-[#5c9ead] rounded'>
             <div className='w-full grid grid-cols-12 font-semibold tracking-[1px] text-xs lg:text-sm'>
               <p className='lg:col-span-1 col-span-2 text-center'>No</p>
               <p className='lg:col-span-3 md:col-span-3 col-span-6 text-center'>Parcel code</p>
@@ -64,7 +64,9 @@ export default function Parcel() {
           </div>
 
           {allParcel.map((parcel, index) => (
-            <div className='w-full py-3 mt-3 bg-neutral-500/30' key={index}>
+            <div className={`w-full py-5  ${index % 2 == 0 ? 'bg-neutral-500/30' : ' bg-neutral-500/10'}`} 
+             key={index}
+            >
               <div className='w-full grid grid-cols-12 font-medium tracking-[1px] text-xs lg:text-sm'>
                 <p className='lg:col-span-1 col-span-2 text-center'>{index + 1}</p>
                 <p className='lg:col-span-3 md:col-span-3 col-span-6 text-center truncate'>{parcel.code}</p>
