@@ -6,6 +6,12 @@
   display: none;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .loading {
   fill: none;
   /* stroke: #f2f2f2; */
