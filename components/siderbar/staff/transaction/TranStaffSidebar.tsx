@@ -18,9 +18,9 @@ export default function StaffSidebar({}) {
       <div>
         <div className='px-5'>
           <Link href={'/'} className='bg-gray-300 rounded-full sm:rounded p-1.5 sm:p-2 
-            items-center w-fit sm:w-full flex font-semibold sm:space-x-2'
+            items-center w-fit sm:w-full flex font-semibold sm:space-x-2 justify-center'
           >
-            <GoHomeFill size={24} className='sm:ml-4' />
+            <GoHomeFill size={24} />
             <p className='sm:block hidden text-xs md:text-sm'>Back to home</p>
           </Link>
         </div>

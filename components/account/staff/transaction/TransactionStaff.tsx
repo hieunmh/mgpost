@@ -4,20 +4,26 @@ import Overview from './Overview';
 import Parcel from './Parcel';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import axios from 'axios';
+import { useUser } from '@/hooks/useUser';
 
 
 export default function TransactionStaff() {
 
   const { menu, setMenu } = useTransactionStaff();
 
-  const { setAllParcel } = useAllParcel();
+  const { allParcel,setAllParcel } = useAllParcel();
+
+  const { userInfo } = useUser();
 
   useEffect(() => {
     const getAllParcel = async () => {
-      const res = await axios.get('api/parcel/getAllParcel');
+      const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
       setAllParcel(res.data.data);
     }
-    getAllParcel();
+    if (allParcel.length == 0) {
+      getAllParcel();
+    }
+    
   }, []);
 
   return (

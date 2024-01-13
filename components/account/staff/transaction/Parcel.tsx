@@ -3,11 +3,35 @@ import { motion } from 'framer-motion';
 
 import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
+import CreateParcel from './CreateParcel';
 
 
 export default function Parcel() {
 
   const { allParcel } = useAllParcel();
+
+  const { isOpen, setIsOpen } = useCreateParcel();
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+  
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -15,13 +39,14 @@ export default function Parcel() {
       className='w-full h-full rounded bg-neutral-500/10 p-5'
     >
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
-        <div className='flex justify-between'>
-          <p className='font-extrabold text-3xl'>Parcel List</p>
+        <div className='flex justify-between items-center text-center'>
+          <p className='font-extrabold text-base sm:text-3xl'>Parcel List</p>
           <button className='flex font-medium items-center justify-center 
-            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-6 py-3'
+            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
+            onClick={() => setIsOpen(true)}
           >
-            <LuPackagePlus size={25} className='mb-1' />
-            <p className='tracking-[1px] text-sm'>Create parcel</p>
+            <LuPackagePlus className='mb-1 sm:text-[24px]' />
+            <p className='tracking-[1px] text-xs sm:text-sm'>Create parcel</p>
           </button>
         </div>
 
@@ -64,9 +89,10 @@ export default function Parcel() {
               </div>
             </div>
           ))}
-
         </div>
       </div>
+
+      {isOpen && <CreateParcel />}
     </motion.div>
   )
 }

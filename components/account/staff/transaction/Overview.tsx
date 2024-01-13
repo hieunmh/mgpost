@@ -7,7 +7,9 @@ export default function Overview() {
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
       className='w-full h-full bg-neutral-500/20 rounded'
     >
-      
+      <div className='w-full h-full'>
+
+      </div>
     </motion.div>
   )
 }
