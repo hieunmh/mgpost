@@ -27,7 +27,7 @@ export default function TransactionStaff() {
   }, []);
 
   return (
-    <div className='sm:px-5 px-3 pb-3 sm:pb-5 h-full w-full overflow-y-hidden'>
+    <div className='sm:px-5 px-3 pb-3 sm:pb-5 h-[calc(100vh-100px)] w-full overflow-y-hidden'>
       {menu === 'overview' && <Overview />}
       {menu === 'parcel' && <Parcel />}
     </div>

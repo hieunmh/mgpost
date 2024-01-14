@@ -59,8 +59,8 @@ export default function CreateParcel() {
   const createParcel: SubmitHandler<InputForm> = async (formData) => {
     formData.userID = userInfo?.id as string;
     formData.code = code;
-    formData.sendAddress = sendWard + '-' + sendDistrict + '-' + sendProvince;
-    formData.reveiveAddress = receiveWard + '-' + receiveDistrict + '-' + receiveProvince;
+    formData.sendAddress = sendWard + ' - ' + sendDistrict + ' - ' + sendProvince;
+    formData.reveiveAddress = receiveWard + ' - ' + receiveDistrict + ' - ' + receiveProvince;
 
     if (!formData.senderName || !formData.senderPhone || !sendWard || !sendDistrict || !sendProvince
       || !formData.receiverName || !formData.receiverPhone || !receiveWard || !receiveDistrict || !receiveProvince
@@ -144,13 +144,13 @@ export default function CreateParcel() {
               </div>
 
               <div className='w-full flex space-x-2 lg:space-x-5'>
-                <input type='text' placeholder='Province / City' onChange={(e) => setSendProvince(e.target.value)}
+                <input type='text' placeholder='Province' onChange={(e) => setSendProvince(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
                 <input type='text' placeholder='District' onChange={(e) => setSendDistrict(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
-                <input type='text' placeholder='Commune / Ward' onChange={(e) => setSendWard(e.target.value)}
+                <input type='text' placeholder='Ward' onChange={(e) => setSendWard(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
               </div>
@@ -168,13 +168,13 @@ export default function CreateParcel() {
               </div>
 
               <div className='w-full flex space-x-2 lg:space-x-5'>
-                <input type='text' placeholder='Province / City' onChange={(e) => setReceiveProvince(e.target.value)}
+                <input type='text' placeholder='Province' onChange={(e) => setReceiveProvince(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
                 <input type='text' placeholder='District' onChange={(e) => setReceiveDistrict(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
-                <input type='text' placeholder='Commune / Ward' onChange={(e) => setReceiveWard(e.target.value)}
+                <input type='text' placeholder='Ward' onChange={(e) => setReceiveWard(e.target.value)}
                   className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                 />
               </div>
@@ -182,22 +182,22 @@ export default function CreateParcel() {
           </div>
 
           <div className='w-full text-gray-200 font-medium space-y-2 lg:space-y-5 text-xs lg:text-base'>
-            <p className='text-2xl font-bold'>Parcel Information</p>
-            <div className='flex space-x-5'>
+            <p className='text-2xl font-bold'>Parcel information</p>
+            <div className='flex space-x-2 lg:space-x-5'>
               <input type='text' placeholder='Parcel name' {...register('parcelInfo')}
-                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[70%] placeholder-gray-200/30'  
+                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[65%] placeholder-gray-200/30'  
               />
               <input type='number' placeholder='Weight (g)' min={0} {...register('weight')}
-                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[30%] placeholder-gray-200/30'  
+                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[35%] placeholder-gray-200/30'  
               />
             </div>
 
-            <div className='flex space-x-5'>
+            <div className='flex space-x-2 lg:space-x-5'>
               <input type='number' placeholder='Total (VND)' min={0} {...register('totalCharge')}
-                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[30%] placeholder-gray-200/30'  
+                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[40%] placeholder-gray-200/30'  
               />
               <input type='text' placeholder='Note *' {...register('note')}
-                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[70%] placeholder-gray-200/30'  
+                className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-[60%] placeholder-gray-200/30'  
               />
             </div>
           </div>

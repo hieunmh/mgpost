@@ -103,7 +103,7 @@ export default function Header() {
         )}
       </div>
 
-      <div className='lg:hidden block overflow-x-hidden'>
+      <div className='lg:hidden overflow-x-hidden flex items-center justify-center'>
         <button className='bg-gray-200 rounded-full' onClick={toggleMenu}>
           <TiPlus size={24} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-[135deg]' : 'rotate-0'}`} />
         </button>

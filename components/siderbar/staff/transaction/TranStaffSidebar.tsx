@@ -14,9 +14,9 @@ export default function StaffSidebar({}) {
   const { menu, setMenu } = useTransactionStaff();
 
   return (
-    <div className='w-[80px] sm:w-[30vw] sm:max-w-[250px] h-screen bg-[#363636]/20 py-8 flex flex-col justify-between'>
+    <div className='w-[80px] sm:w-[30vw] sm:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between'>
       <div>
-        <div className='px-5'>
+        <div className='p-5 h-[100px] flex items-center'>
           <Link href={'/'} className='bg-gray-300 rounded-full sm:rounded p-1.5 sm:p-2 
             items-center w-fit sm:w-full flex font-semibold sm:space-x-2 justify-center'
           >
@@ -25,7 +25,7 @@ export default function StaffSidebar({}) {
           </Link>
         </div>
 
-        <div className='pt-5 px-3 sm:px-5 space-y-5 flex flex-col'>
+        <div className='px-3 sm:px-5 space-y-5 flex flex-col'>
           <p className='w-full text-gray-300 font-bold text-center uppercase hidden sm:block text-sm md:text-base'>
             {userInfo?.role}
           </p>
@@ -49,7 +49,7 @@ export default function StaffSidebar({}) {
       </div>
 
       <p className='text-gray-300 uppercase whitespace-nowrap 
-        tracking-[5px] font-bold text-xl -rotate-90 pl-8 sm:hidden'
+        tracking-[5px] font-bold text-xl -rotate-90 pl-16 sm:hidden'
       >
         {userInfo?.role}
       </p>
