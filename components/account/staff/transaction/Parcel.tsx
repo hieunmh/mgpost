@@ -53,39 +53,39 @@ export default function Parcel() {
         <div className='w-full h-full rounded'>
           <div className='w-full py-5 mb-5 bg-[#5c9ead] rounded'>
             <div className='w-full grid grid-cols-12 font-semibold tracking-[1px] text-xs lg:text-sm'>
-              <p className='lg:col-span-1 col-span-2 text-center'>No</p>
-              <p className='lg:col-span-3 md:col-span-3 col-span-6 text-center'>Parcel code</p>
-              <p className='col-span-2 text-center lg:block hidden'>From</p>
-              <p className='col-span-2 text-center lg:block hidden'>To</p>
-              <p className='col-span-2 text-center lg:block hidden'>Created date</p>
-              <p className='col-span-4 lg:hidden hidden md:block text-center'>From - To</p>
-              <p className='lg:col-span-2 md:col-span-3 col-span-4 text-center'>Status</p>
+              <p className='md:col-span-1 col-span-2 text-center'>No</p>
+
+              <p className='md:col-span-3 sm:col-span-4 col-span-6 text-center'>Code</p>
+
+              <p className='col-span-4 sm:block hidden text-center'>From - To</p>
+
+              <p className='col-span-2 text-center md:block hidden'>Created date</p>
+
+              <p className='sm:col-span-2 col-span-4 text-center'>Status</p>
             </div>
           </div>
 
           {allParcel.map((parcel, index) => (
-            <div className={`w-full py-5  ${index % 2 == 0 ? 'bg-neutral-500/30' : ' bg-neutral-500/10'}`} 
-             key={index}
+            <div key={index} className={`w-full py-5  
+              ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
             >
               <div className='w-full grid grid-cols-12 font-medium tracking-[1px] text-xs lg:text-sm'>
-                <p className='lg:col-span-1 col-span-2 text-center'>{index + 1}</p>
-                <p className='lg:col-span-3 md:col-span-3 col-span-6 text-center truncate'>{parcel.code}</p>
-                <p className='col-span-2 text-center lg:block hidden'>
-                  {parcel.packageDetails.sender_address?.split('-').pop()}
-                </p>
-                <p className='col-span-2 text-center lg:block hidden'>
+                <p className='md:col-span-1 col-span-2 text-center'>{index + 1}</p>
+
+                <p className='md:col-span-3 sm:col-span-4 col-span-6 text-center truncate'>{parcel.code}</p>
+  
+                <p className='col-span-4 sm:block hidden text-center truncate'>
+                  {parcel.packageDetails.sender_address?.split('-').pop()} - {' '}
                   {parcel.packageDetails.receiver_address.split('-').pop()}
                 </p>
-                <p className='col-span-2 text-center lg:block hidden'>
+
+                <p className='col-span-2 text-center md:block hidden'>
                   {String(new Date(parcel.created_at).getDate()).padStart(2, '0')}
                   /{String(new Date(parcel.created_at).getMonth() + 1).padStart(2, '0')}
                   /{String(new Date(parcel.created_at).getFullYear())}
                 </p>
-                <p className='col-span-4 lg:hidden hidden md:block text-center'>
-                  {parcel.packageDetails.sender_address?.split('-').pop()} - 
-                  {parcel.packageDetails.receiver_address.split('-').pop()}
-                </p>
-                <p className='lg:col-span-2 md:col-span-3 col-span-4 text-center'>
+
+                <p className='sm:col-span-2 col-span-4 text-center'>
                   {parcel.packageStatus[parcel.packageStatus.length - 1]?.status}
                 </p>
               </div>

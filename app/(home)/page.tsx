@@ -5,6 +5,7 @@ import ParcelStatus from '@/components/parcel/ParcelStatus';
 import Service from '@/components/service/Service';
 
 export default function Home() {
+  
   return (
     <div className='w-full h-screen scroll-smooth overflow-x-hidden scrollbar-none'>
       <Header />

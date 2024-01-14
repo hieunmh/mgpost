@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { twMerge } from 'tailwind-merge'
-import Header from '@/components/header/Header'
 import { SupabaseProvider } from '@/providers/SupabaseProvider'
 import { UserProvider } from '@/providers/UserProvider'
 import { ToasterProvider } from '@/providers/ToastProvider'
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  
   return (
     <html lang="en">
       <body className={twMerge('bg-[#242424]', inter.className)}>
