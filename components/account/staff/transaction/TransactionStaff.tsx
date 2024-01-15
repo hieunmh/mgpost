@@ -8,8 +8,7 @@ import { useUser } from '@/hooks/useUser';
 
 
 export default function TransactionStaff() {
-
-  const { menu, setMenu } = useTransactionStaff();
+  const { menu } = useTransactionStaff();
 
   const { allParcel,setAllParcel } = useAllParcel();
 
@@ -20,6 +19,7 @@ export default function TransactionStaff() {
       const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
       setAllParcel(res.data.data);
     }
+
     if (allParcel.length == 0) {
       getAllParcel();
     }

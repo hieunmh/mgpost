@@ -34,11 +34,12 @@ export async function POST(request: NextRequest) {
   const create = await supabase.from('packages').insert({
     code: code,
     current_location: transaction.data?.address,
+    status: 'In stock'
   });
 
   const getpk = await supabase.from('packages').select('*').eq('code', code).single();
 
-  const createParcel = await supabase.from('packageDetails').insert({
+  await supabase.from('packageDetails').insert({
     id: getpk.data?.id as string,
     code: code,
     package_info: packageInfo,

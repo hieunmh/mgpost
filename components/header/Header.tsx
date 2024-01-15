@@ -80,7 +80,7 @@ export default function Header() {
             >
               {loading ? (
                 <div className='h-[24px] w-[60px] items-center flex justify-center'>
-                  <svg viewBox="0 0 100 100" className='loading h-full stroke-[#5c9ead]'>
+                  <svg viewBox="0 0 100 100" className='loading h-full stroke-[#363636]'>
                     <circle cx="50" cy="50" r="40"  />
                   </svg>
                 </div>

@@ -5,33 +5,44 @@ import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import CreateParcel from './CreateParcel';
-
+import { useSessionContext } from '@supabase/auth-helpers-react';
+import axios from 'axios';
+import { useUser } from '@/hooks/useUser';
+import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
 
 export default function Parcel() {
 
-  const { allParcel } = useAllParcel();
-
+  const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
+  const { isOpenDetail, setIsOpenDetail } = useParcelDetail();
 
-  const container = {
-    hidden: { opacity: 1, scale: 0 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
-  };
+  const { userInfo } = useUser();
+
+  const { supabaseClient } = useSessionContext();
+
   
-  const item = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1
+  const [pageNumber, setPageNumber] = useState<number>();
+  const [perPage, setPerPage] = useState<number>();
+
+  useEffect(() => {
+    const fetchAllParcel = async () => {
+      const channel = supabaseClient.channel('realtime parcel')
+      .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'packages',
+        }, 
+        async (payload: any) => {
+          const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
+          setAllParcel(res.data.data);
+        }
+      ).subscribe()
+
+      return () => supabaseClient.removeChannel(channel);
     }
-  };
+
+    fetchAllParcel();
+  })
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -75,8 +86,8 @@ export default function Parcel() {
                 <p className='md:col-span-3 sm:col-span-4 col-span-6 text-center truncate'>{parcel.code}</p>
   
                 <p className='col-span-4 sm:block hidden text-center truncate'>
-                  {parcel.packageDetails.sender_address?.split('-').pop()} - {' '}
-                  {parcel.packageDetails.receiver_address.split('-').pop()}
+                  {parcel.packageDetails?.sender_address?.split('-').pop()} - {' '}
+                  {parcel.packageDetails?.receiver_address?.split('-').pop()}
                 </p>
 
                 <p className='col-span-2 text-center md:block hidden'>
@@ -86,7 +97,7 @@ export default function Parcel() {
                 </p>
 
                 <p className='sm:col-span-2 col-span-4 text-center'>
-                  {parcel.packageStatus[parcel.packageStatus.length - 1]?.status}
+                  {parcel.status}
                 </p>
               </div>
             </div>
@@ -95,6 +106,7 @@ export default function Parcel() {
       </div>
 
       {isOpen && <CreateParcel />}
+      {}
     </motion.div>
   )
 }

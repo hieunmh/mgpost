@@ -10,25 +10,32 @@ import { IoClose } from 'react-icons/io5';
 
 import Status from './Status';
 import { useParcelStatus } from '@/hooks/useParcelStatus';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+type ParcelStatusForm = {
+  parcelCode: string;
+}
 
 export default function ParcelStatus() {
 
   let [loading, setLoading] = useState<boolean>(false);
 
-  let [parcelCode, setParcelCode] = useState<string>('');
 
   let [height, setHeight] = useState<number>(168);
+
+  const { register, handleSubmit } = useForm<ParcelStatusForm>();
 
   const { showParcelStatus, setShowParcelStatus } = useParcelStatus();
 
   let [parcelStatus, setParcelStatus] = 
     useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]} | null>(null);
 
-  const getParcel = async () => {
-    if (!parcelCode) return;
+
+  const getParcel: SubmitHandler<ParcelStatusForm> = async (formData) => {
+    if (!formData.parcelCode) return;
 
     setLoading(true);
-    const res = await axios.get(`/api/parcel/parcelStatus?code=${parcelCode}`);
+    const res = await axios.get(`/api/parcel/parcelStatus?code=${formData.parcelCode}`);
 
     if (res.data.error) {
       toast.error('Parcel not found!')
@@ -58,12 +65,12 @@ export default function ParcelStatus() {
             <span className='text-[#5c9ead] underline cursor-pointer'>code</span> below
           </p>
 
-          <div className='flex items-center justify-center space-x-4'>
-            <input type="text" placeholder='Enter your parcel code' onChange={(e) => setParcelCode(e.target.value)}
+          <form className='flex items-center justify-center space-x-4'>
+            <input type='text' placeholder='Enter your parcel code' {...register('parcelCode')}
               className='py-3 px-5 outline-none h-12 text-xs sm:text-base font-semibold 
               rounded bg-neutral-500/50 text-gray-200 w-[500px]'
             />
-            <button onClick={getParcel} className=' bg-gray-200 h-12 px-4 rounded'>
+            <button onClick={handleSubmit(getParcel)} className=' bg-gray-200 h-12 px-4 rounded'>
               {loading ? (
                 <div className='h-[24px] w-[60px] items-center flex justify-center'>
                   <svg viewBox="0 0 100 100" className='loading h-full stroke-[#363636]'>
@@ -76,7 +83,7 @@ export default function ParcelStatus() {
                 </div>
               )}
             </button>
-          </div>
+          </form>
         </div>
 
         <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>
