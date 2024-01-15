@@ -1,4 +1,4 @@
-import { DisctrictType, ProvinceType, UserInfoType } from '@/types/type';
+import { DisctrictType, ProvinceType, UserInfoType, WardType } from '@/types/type';
 import { User } from '@supabase/auth-helpers-nextjs';
 import { useSessionContext, useUser as useSupaUser } from '@supabase/auth-helpers-react';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useProvince } from './address/useProvince';
 import { useDistrict } from './address/useDistrict';
 import { formatVN } from '@/actions/filterVN';
+import { useWard } from './address/useWard';
 
 
 type UserContextType = {
@@ -32,6 +33,7 @@ export const MyUserContextProvider = (props: Props) => {
 
   const { provinces, setProvinces } = useProvince();
   const { districts, setDistricts } = useDistrict();
+  const { wards, setWards } = useWard();
 
   const getUserInfo = () => supabase.from('users').select('*').eq('id', user?.id).single();
 
@@ -66,11 +68,11 @@ export const MyUserContextProvider = (props: Props) => {
         if (pro.name.includes('Thành phố')) {
           pro.name = formatVN(pro.name.substring(10));
         }
-      })
+      });
 
       allProvinces.sort((a: ProvinceType, b: ProvinceType) => {
         return a.name.localeCompare(b.name);
-      })      
+      });     
 
       setProvinces(allProvinces);
     }
@@ -103,13 +105,42 @@ export const MyUserContextProvider = (props: Props) => {
 
       allDistricts.sort((a: DisctrictType, b: DisctrictType) => {
         return a.name.localeCompare(b.name);
-      }) 
-      
+      });
 
       setDistricts(allDistricts);
     }
     getAllDistricts();
-  }, [])
+  }, []);
+
+
+  useEffect(() => {
+    const getAllWards = async () => {
+      const allWards: WardType[] = (await axios.get('https://provinces.open-api.vn/api/w/')).data;
+
+      allWards.forEach(ward => {
+        if (ward.name.toLowerCase().includes('xã')) {
+          ward.name = formatVN(ward.name.substring(3));
+        }
+
+        if (ward.name.toLowerCase().includes('phường')) {
+          ward.name = formatVN(ward.name.substring(7));
+        }
+
+        if (ward.name.toLowerCase().includes('thị trấn')) {
+          ward.name = formatVN(ward.name.substring(9));
+        }
+      });
+
+      allWards.sort((a: WardType, b: WardType) => {
+        return a.name.localeCompare(b.name);
+      });
+
+      setWards(allWards);
+      
+    }
+
+    getAllWards();
+  }, []);
 
   const value = { accessToken, user, userInfo, isLoading: isLoadingData };
 

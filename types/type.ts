@@ -12,8 +12,9 @@ export type DisctrictType = {
 }
 
 export type WardType = {
-  code: string;
+  code: number;
   name: string;
+  district_code: number;
 }
 
 export type UserInfoType = Database['public']['Tables']['users']['Row'];

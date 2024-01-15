@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
+import SendAddress from './SendAddress';
 
 import { IoClose } from 'react-icons/io5';
 
@@ -17,6 +17,8 @@ import toast from 'react-hot-toast';
 
 import { useProvince } from '@/hooks/address/useProvince';
 import { useDistrict } from '@/hooks/address/useDistrict';
+import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
+import { useSendAddress } from '@/hooks/address/useSendAddress';
 
 type InputForm = {
   userID: string;
@@ -44,39 +46,15 @@ export default function CreateParcel() {
 
   const { register, handleSubmit } = useForm<InputForm>();
 
-  const { provinces } = useProvince();
-  const { districts } = useDistrict();
-
-  let [provinceCode, setProvinceCode] = useState<number>();
-  let [districtCode, setDistrictsCode] = useState<number>();
-
-  let [showProvince, setShowProvince] = useState<boolean>(false);
-  let [showDistrict, setShowDistrict] = useState<boolean>(false);
-  let [showWard, setShowWard] = useState<boolean>(false);
-
+  const { sendWard, sendDistrict, sendProvince } = useSendAddress();
 
   let [code, setCode] = useState<string>('');
   let [loading, setLoading] = useState<boolean>(false);
 
-  let [sendWard, setSendWard] = useState<string>('');
-  let [sendDistrict, setSendDistrict] = useState<string>('');
-  let [sendProvince, setSendProvince] = useState<string>('');
 
   let [receiveWard, setReceiveWard] = useState<string>('');
   let [receiveDistrict, setReceiveDistrict] = useState<string>('');
   let [receiveProvince, setReceiveProvince] = useState<string>('');
-
-  const filterSendProvince = provinces.filter(province => {
-    return province.name.toLowerCase().includes(sendProvince.toLowerCase());
-  })
-  
-
-
-  const filterSendDistrict = districts.filter(district => {
-    
-    return district.province_code === provinceCode &&
-    district.name.toLowerCase().includes(sendDistrict.toLowerCase());
-  })
 
 
   const createParcel: SubmitHandler<InputForm> = async (formData) => {
@@ -115,11 +93,11 @@ export default function CreateParcel() {
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
       backdrop-blur-md duration-500 flex items-center justify-center px-5 py-5 sm:px-20 sm:py-20'
     > 
-      <motion.div className='w-[1100px] h-fit p-5 bg-[#363636]/70 rounded-xl relative'
+      <motion.div className='w-[1100px] h-fit p-5 bg-[#363636]/70 rounded-2xl relative'
         initial={{ opacity: 1, scale: 0.5 }} animate={{ opacity: 1, scale: [0.5, 1.03, 1] }}
         transition={{ type: 'just', duration: 0.5 }}
       >
-        <button className='absolute top-0 right-0 text-white bg-[#5c9ead] rounded-tr-xl rounded-bl-xl'
+        <button className='absolute top-0 right-0 text-white bg-[#5c9ead] rounded-tr-2xl rounded-bl-2xl'
           onClick={() => setIsOpen(false)}
         >
           <IoClose className='m-1 text-[17px] md:text-[28px]' />
@@ -145,119 +123,48 @@ export default function CreateParcel() {
             </div>
           </div>
 
-          <div className='w-full space-y-5 gap-5 text-gray-200 font-medium text-xs lg:text-base'>
-            <div className='w-full rounded-xl space-y-2 md:space-y-5'>
-              <p className='font-semibold text-2xl'>Sender information</p>
-              <div className='w-full flex space-x-2 md:space-x-5'>
-                <div className='w-[65%] space-y-1'>
-                  <p className='ml-1'>Full name</p>
-                  <input {...register('senderName')} type='text' placeholder=''
-                    className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
+          <div className='w-full lg:flex lg:space-y-0 space-y-5 gap-5 text-gray-200 font-medium text-xs lg:text-sm'>
+            <div className='w-full'>
+              <div className='w-full rounded-xl space-y-2 md:space-y-5'>
+                <p className='font-semibold text-2xl'>Sender information</p>
+
+                <div className='w-full flex space-x-2 md:space-x-5'>
+                  <input {...register('senderName')} type='text' placeholder='Name'
+                    className='bg-transparent border-b border-b-gray-200/20 
+                    py-2 px-4 outline-none w-[65%] placeholder-gray-200/30' 
+                  />
+                  <input {...register('senderPhone')} type='text' placeholder='Phone' maxLength={10}
+                    className='bg-transparent border-b border-b-gray-200/20 
+                    py-2 px-4 outline-none w-[35%] placeholder-gray-200/30' 
                   />
                 </div>
-                <div className='w-[35%] space-y-1'>
-                  <p className='ml-1'>Phone number</p>
-                  <input {...register('senderPhone')} type='text' placeholder='' maxLength={10}
-                    className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
-                  />
-                </div>
-              </div>
 
-              <div className='w-full space-y-1'>
-                <p className='ml-1'>Address</p>
-                <div className='w-full flex md:flex-row flex-col space-y-2 md:space-y-0 md:space-x-5'>
-                  <div className='w-full md:w-1/3 relative'>
-                    <input type='text' placeholder='Province' onChange={(e) => {
-                      setSendProvince(e.target.value);
-                      setSendDistrict('');
-                      setSendWard('');
-                    }}
-                      className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
-                      onFocus={() => setShowProvince(true)} value={sendProvince} onBlur={() => setShowProvince(false)}
-                    />
-                    {showProvince && (
-                      <div className='rounded w-full max-h-[300px] absolute bg-[#242424] mt-2 md:mt-5 overflow-y-auto
-                        scrollbar-thin scrollbar-thumb-[#5c9ead] scrollbar-track-transparent'
-                        onMouseOver={() => setShowProvince(true)}
-                      >
-                        {filterSendProvince.map((province, index) => (
-                          <option value={province.name} key={index}
-                            className=' hover:bg-[#363636]/30 cursor-pointer py-3 px-2 md:px-5'
-                            onClick={() => {
-                              setProvinceCode(province.code);
-                              setSendProvince(province.name);
-                              // setShowProvince(false);
-                            }}
-                          >
-                            {province.name}
-                          </option>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className='w-full md:w-2/3 flex space-x-2 md:space-x-5'>
-                    <div className='w-full relative' onBlur={() => setShowDistrict(false)}>
-                      <input type='text' placeholder='District' onChange={(e) => setSendDistrict(e.target.value)}
-                        className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
-                        onFocus={() => setShowDistrict(true)} value={sendDistrict}
-                      />
-                      {showDistrict && (
-                        <div className='rounded w-full h-[300px] absolute bg-[#242424] mt-2 md:mt-5 overflow-y-auto
-                          scrollbar-thin scrollbar-thumb-[#5c9ead] scrollbar-track-transparent'
-                        >
-                          {filterSendDistrict.map((district, index) => (
-                            <option value={district.name} key={index}
-                              className=' hover:bg-[#363636]/30 cursor-pointer py-3 px-2 md:px-5'
-                              onClick={() => {
-                                setDistrictsCode(district.code);
-                                setSendDistrict(district.name);
-                                setShowDistrict(false);
-                              }}
-                            >
-                              {district.name}
-                            </option>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <input type='text' placeholder='Ward' onChange={(e) => setSendWard(e.target.value)}
-                      className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
-                    />
-                  </div>
-                </div>
+                <SendAddress />
               </div>
             </div>
-
-            <div className='w-full rounded-xl space-y-2 md:space-y-5'>
-              <p className='font-semibold text-2xl'>Receiver information</p>
-              <div className='w-full flex space-x-2 md:space-x-5'>
-                <div className='w-[65%] space-y-1'>
-                  <p className='ml-1'>Full name</p>
-                  <input {...register('receiverName')} type='text' placeholder=''
-                    className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
+            
+            <div className='w-full'>
+              <div className='w-full rounded-xl space-y-2 md:space-y-5'>
+                <p className='font-semibold text-2xl'>Receiver information</p>
+                <div className='w-full flex space-x-2 md:space-x-5'>
+                  <input {...register('receiverName')} type='text' placeholder='Name'
+                    className='bg-transparent border-b border-b-gray-200/20 py-2 px-4 outline-none w-[65%] placeholder-gray-200/30' 
+                  />
+                  <input {...register('receiverPhone')} type='text' placeholder='Phone' maxLength={10}
+                    className='bg-transparent border-b border-b-gray-200/20 py-2 px-4 outline-none w-[35%] placeholder-gray-200/30' 
                   />
                 </div>
-                <div className='w-[35%] space-y-1'>
-                  <p className='ml-1'>Phone number</p>
-                  <input {...register('receiverPhone')} type='text' placeholder='' maxLength={10}
-                    className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
-                  />
-                </div>
-              </div>
 
-              <div className='w-full space-y-1'>
-                <p className='ml-1'>Address</p>
                 <div className='w-full flex md:flex-row flex-col space-y-2 md:space-y-0 md:space-x-5'>
                   <input type='text' placeholder='Province' onChange={(e) => setReceiveProvince(e.target.value)}
-                    className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full md:w-1/3 placeholder-gray-200/30' 
+                    className='bg-transparent border-b border-b-gray-200/20 py-2 px-4 outline-none w-full md:w-1/3 placeholder-gray-200/30' 
                   />
                   <div className='w-full md:w-2/3 flex space-x-2 md:space-x-5'>
                     <input type='text' placeholder='District' onChange={(e) => setReceiveDistrict(e.target.value)}
-                      className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
+                      className='bg-transparent border-b border-b-gray-200/20 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                     />
                     <input type='text' placeholder='Ward' onChange={(e) => setReceiveWard(e.target.value)}
-                      className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
+                      className='bg-transparent border-b border-b-gray-200/20 py-2 px-4 outline-none w-full placeholder-gray-200/30' 
                     />
                   </div>
                 </div>
@@ -265,36 +172,29 @@ export default function CreateParcel() {
             </div>
           </div>
 
-          <div className='w-full text-gray-200 font-medium space-y-2 md:space-y-5 text-xs lg:text-base'>
+          <div className='w-full text-gray-200 font-medium space-y-2 md:space-y-5 text-xs lg:text-sm'>
             <p className='text-2xl font-bold'>Parcel information</p>
             <div className='flex space-x-2 md:space-x-5'>
-              <div className='w-[65%] space-y-1'>
-                <p className='ml-1'>Parcel name</p>
-                <input type='text' placeholder='' {...register('parcelInfo')}
-                  className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30'  
-                />
-              </div>
-              <div className='w-[35%] space-y-1'>
-                <p className='ml-1'>Weight (g)</p>
-                <input type='number' placeholder='' min={0} {...register('weight')}
-                  className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30'  
-                />
-              </div>
+              <input type='text' placeholder='Parcel name' {...register('parcelInfo')}
+                className='bg-transparent border-b border-b-gray-200/20 
+                py-2 px-4 outline-none w-[65%] placeholder-gray-200/30'  
+              />
+              <input type='number' placeholder='weight (g)' min={0} {...register('weight')}
+                className='bg-transparent border-b border-b-gray-200/20 
+                py-2 px-4 outline-none w-[35%] placeholder-gray-200/30'  
+              />
             </div>
 
             <div className='flex space-x-2 md:space-x-5'>
-              <div className='w-[40%] space-y-1'>
-                <p className='ml-1'>Total (VND)</p>
-                <input type='number' placeholder='' min={0} {...register('totalCharge')}
-                  className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30'  
-                />
-              </div>
-              <div className='w-[60%] space-y-1'>
-                <p className='ml-1'>Note *</p>
-                <input type='text' placeholder='' {...register('note')}
-                  className='rounded bg-[#242424]/50 py-2 px-4 outline-none w-full placeholder-gray-200/30'  
-                />
-              </div>
+              <input type='number' placeholder='Fee (VND)' min={0} {...register('totalCharge')}
+                className='bg-transparent border-b border-b-gray-200/20 
+                py-2 px-4 outline-none w-full placeholder-gray-200/30'  
+              />
+
+              <input type='text' placeholder='Note *' {...register('note')}
+                className='bg-transparent border-b border-b-gray-200/20 
+                py-2 px-4 outline-none w-full placeholder-gray-200/30'  
+              />
             </div>
           </div>
 

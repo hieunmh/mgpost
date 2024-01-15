@@ -50,8 +50,8 @@ export default function Parcel() {
           </button>
         </div>
 
-        <div className='w-full h-full rounded'>
-          <div className='w-full py-5 mb-5 bg-[#5c9ead] rounded'>
+        <div className='w-full h-full'>
+          <div className='w-full py-5 bg-[#5c9ead] rounded-t'>
             <div className='w-full grid grid-cols-12 font-semibold tracking-[1px] text-xs lg:text-sm'>
               <p className='md:col-span-1 col-span-2 text-center'>No</p>
 
