@@ -5,10 +5,34 @@ import Parcel from './Parcel';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
+import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
+import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
+import { usePage } from '@/hooks/parcel/usePage';
 
 
 export default function TransactionStaff() {
   const { menu } = useTransactionStaff();
+
+  const { userInfo } = useUser();
+
+  const { allParcel, setAllParcel } = useAllParcel();
+  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+
+  
+  useEffect(() => {
+    const getAllParcel = async () => {
+      const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
+      setAllParcel(res.data.data);
+      res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+      setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+    }
+
+    if (allParcel.length == 0) {
+      getAllParcel();
+    }
+    
+  }, []);
+
 
 
   return (

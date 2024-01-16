@@ -15,8 +15,8 @@ export default function SendAddress() {
     setReceiveDetail, setReceiveWard, setReceiveDistrict, setReceiveProvince 
   } = useReceiveAddress();
 
-  let [receiveProvinceCode, setReceiveProvinceCode] = useState<number>();
-  let [receiveDistrictCode, setReceiveDistrictsCode] = useState<number>();
+  let [receiveProvinceCode, setReceiveProvinceCode] = useState<number | null>(null);
+  let [receiveDistrictCode, setReceiveDistrictsCode] = useState<number | null>(null);
 
   let [showReceiveProvince, setShowReceiveProvince] = useState<boolean>(false);
   let [showReceiveDistrict, setShowReceiveDistrict] = useState<boolean>(false);
@@ -43,7 +43,7 @@ export default function SendAddress() {
       <div className='w-full flex md:flex-row flex-col space-y-2 md:space-y-0 md:space-x-5'>
         <div className='w-full md:w-1/3 relative'>
           <input type='text' placeholder='Province' onChange={(e) => {
-              setReceiveProvince(e.target.value); setReceiveDistrict(''); setReceiveWard('');
+              setReceiveProvince(e.target.value); setReceiveDistrict(''); setReceiveWard(''); setReceiveProvinceCode(null)
             }} value={receiveProvince}
             className='bg-[#242424]/50 rounded 
             py-2 px-4 outline-none w-full placeholder-gray-200/30'
@@ -72,7 +72,7 @@ export default function SendAddress() {
         <div className='w-full md:w-2/3 flex space-x-2 md:space-x-5'>
           <div className='w-full relative'>
             <input type='text' placeholder='District' onChange={(e) => {
-                setReceiveDistrict(e.target.value); setReceiveWard('');
+                setReceiveDistrict(e.target.value); setReceiveWard(''); setReceiveDistrictsCode(null);
               }} value={receiveDistrict}
               className='bg-[#242424]/50 rounded 
               py-2 px-4 outline-none w-full placeholder-gray-200/30' 

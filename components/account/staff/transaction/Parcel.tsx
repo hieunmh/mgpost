@@ -12,18 +12,22 @@ import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
 import { usePage } from '@/hooks/parcel/usePage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import ParcelDetail from './ParcelDetail';
+import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 
 export default function Parcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useParcelDetail();
-  const { page, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
 
-  const perPage = 2 ;
   const { userInfo } = useUser();
 
   const { supabaseClient } = useSessionContext();
+
+  const [parcelDetail, setParcelDetail] = useState<
+  PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
 
   useEffect(() => {
     const fetchAllParcel = async () => {
@@ -46,20 +50,6 @@ export default function Parcel() {
 
     fetchAllParcel();
   })
-
-  useEffect(() => {
-    const getAllParcel = async () => {
-      const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
-      setAllParcel(res.data.data);
-      res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-      setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
-    }
-
-    if (allParcel.length == 0) {
-      getAllParcel();
-    }
-    
-  }, []);
 
 
   return (
@@ -94,9 +84,13 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
-            <div key={index} className={`w-full py-5  
+          {allParcel?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
+            <div key={index} className={`w-full py-5 cursor-pointer
               ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
+              onClick={() => {
+                setParcelDetail(parcel)
+                setIsOpenDetail(true);
+              }}
             >
               <div className='w-full grid grid-cols-12 font-medium tracking-[1px] text-xs lg:text-sm'>
                 <p className='md:col-span-1 col-span-2 text-center'>{index + 1 + perPage * (page - 1)}</p>
@@ -123,17 +117,17 @@ export default function Parcel() {
         </div>
 
         <div className='w-full h-[50px] flex items-center justify-center'>
-          <div className='text-gray-200 font-semibold text-xl flex justify-center items-center space-x-5'>
+          <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
             <button onClick={() => { 
               if (page == 1) setPage(1);
               else setPage(page - 1)
             }}>
-              <MdKeyboardArrowLeft size={25} />
+              <MdKeyboardArrowLeft className='md:text-2xl text-xl' />
             </button>
 
             {[...Array(numberPage)].map((key, index) => (
-              <button key={index} className={`${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
-                onClick={() =>(setPage(index + 1))}
+              <button key={index} onClick={() =>(setPage(index + 1))}
+              className={`md:text-lg text-sm ${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
               >
                 {index + 1}
               </button>
@@ -143,14 +137,14 @@ export default function Parcel() {
               if (page == numberPage) setPage(numberPage);
               else setPage(page + 1);
             }}>
-              <MdKeyboardArrowRight size={25} />
+              <MdKeyboardArrowRight className='md:text-2xl text-xl' />
             </button>
           </div>
         </div>
       </div>
 
       {isOpen && <CreateParcel />}
-      {}
+      {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
     </motion.div>
   )
 }
