@@ -9,20 +9,21 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
+import { usePage } from '@/hooks/parcel/usePage';
+
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 export default function Parcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useParcelDetail();
+  const { page, numberPage, setPage, setNumberPage } = usePage();
 
+  const perPage = 2 ;
   const { userInfo } = useUser();
 
   const { supabaseClient } = useSessionContext();
-
-  
-  const [pageNumber, setPageNumber] = useState<number>();
-  const [perPage, setPerPage] = useState<number>();
 
   useEffect(() => {
     const fetchAllParcel = async () => {
@@ -35,6 +36,8 @@ export default function Parcel() {
         async (payload: any) => {
           const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
           setAllParcel(res.data.data);
+          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+          setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
         }
       ).subscribe()
 
@@ -43,6 +46,21 @@ export default function Parcel() {
 
     fetchAllParcel();
   })
+
+  useEffect(() => {
+    const getAllParcel = async () => {
+      const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
+      setAllParcel(res.data.data);
+      res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+      setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+    }
+
+    if (allParcel.length == 0) {
+      getAllParcel();
+    }
+    
+  }, []);
+
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -76,12 +94,12 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.map((parcel, index) => (
+          {allParcel.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
             <div key={index} className={`w-full py-5  
               ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
             >
               <div className='w-full grid grid-cols-12 font-medium tracking-[1px] text-xs lg:text-sm'>
-                <p className='md:col-span-1 col-span-2 text-center'>{index + 1}</p>
+                <p className='md:col-span-1 col-span-2 text-center'>{index + 1 + perPage * (page - 1)}</p>
 
                 <p className='md:col-span-3 sm:col-span-4 col-span-6 text-center truncate'>{parcel.code}</p>
   
@@ -102,6 +120,32 @@ export default function Parcel() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className='w-full h-[50px] flex items-center justify-center'>
+          <div className='text-gray-200 font-semibold text-xl flex justify-center items-center space-x-5'>
+            <button onClick={() => { 
+              if (page == 1) setPage(1);
+              else setPage(page - 1)
+            }}>
+              <MdKeyboardArrowLeft size={25} />
+            </button>
+
+            {[...Array(numberPage)].map((key, index) => (
+              <button key={index} className={`${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
+                onClick={() =>(setPage(index + 1))}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button onClick={() => {
+              if (page == numberPage) setPage(numberPage);
+              else setPage(page + 1);
+            }}>
+              <MdKeyboardArrowRight size={25} />
+            </button>
+          </div>
         </div>
       </div>
 
