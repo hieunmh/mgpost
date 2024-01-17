@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import Image from 'next/image';
-import { FaBarcode } from 'react-icons/fa';
+import { FaBarcode } from 'react-icons/fa6';
+import axios from 'axios';
+import { useUser } from '@/hooks/useUser';
 
 type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}
 
 export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDetailType }) {
 
   const { isOpenDetail, setIsOpenDetail } = useParcelDetail();
+
+  const { userInfo } = useUser();
+
+  let [loading, setLoading] = useState<boolean>(false);
+
+  const sendToAgg = async () => {
+    setLoading(true);
+    const res = await axios.post('/api/parcel/sendToAgg', {
+      userID: userInfo?.id,
+      parcelCode: parcelDetail.code
+    });
+
+    setLoading(false);
+
+    console.log(res);
+  }
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
@@ -126,8 +144,19 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
           <div className='flex flex-col space-y-5 md:space-y-0 md:flex-row md:space-x-5'>
             <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
               px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+              onClick={sendToAgg}
             >
-              Send to aggregation point
+              {loading ? (
+                <div className='h-[24px] w-full items-center flex justify-center'>
+                  <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                    <circle cx="50" cy="50" r="40"  />
+                  </svg>
+                </div>
+              ) : (
+                <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                  Sent to aggregation point
+                </div>
+              )}
             </button>
 
             <button className='w-full bg-gray-400/20 hover:bg-gray-400/10 

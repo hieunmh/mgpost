@@ -7,7 +7,7 @@ import { TiLocation } from 'react-icons/ti';
 
 export default function Status({ status, index } : { status: PackageStatusType, index: number }) {
 
-  const dateTime = new Date(status.created_at);
+  const dateTime = new Date(status?.created_at);
 
   return (
     <div className={`w-full  flex justify-between items-center space-x-5 text-xs md:text-base
@@ -15,7 +15,7 @@ export default function Status({ status, index } : { status: PackageStatusType, 
     >
       <div className='flex items-center space-x-2 font-semibold'>
         <TiLocation size={24} />
-        <p>{status.current_location}</p>
+        <p>{status?.current_location}</p>
       </div>
 
       <div className='flex flex-col font-semibold text-center'>

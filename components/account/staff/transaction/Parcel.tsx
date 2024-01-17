@@ -38,7 +38,7 @@ export default function Parcel() {
           table: 'packages',
         }, 
         async (payload: any) => {
-          const res = await axios.get(`api/parcel/getParcel1Location?userID=${userInfo?.id}`);
+          const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
           setAllParcel(res.data.data);
           res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
           setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
