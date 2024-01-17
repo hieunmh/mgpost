@@ -79,23 +79,24 @@ export default function CreateParcel() {
     
     if (res.data.error) {
       toast.error('Parcel created failed!');
+      return;
     } else {
       toast.success('Parcel created successfully!');
+
+      setSendProvince('');
+      setSendDistrict('');
+      setSendWard('');
+      setSendDetail('');
+
+      setReceiveProvince('');
+      setReceiveDistrict('');
+      setReceiveWard('');
+      setReceiveDetail('');
+
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 1000);
     }
-
-    setSendProvince('');
-    setSendDistrict('');
-    setSendWard('');
-    setSendDetail('');
-
-    setReceiveProvince('');
-    setReceiveDistrict('');
-    setReceiveWard('');
-    setReceiveDetail('');
-
-    setTimeout(() => {
-      setIsOpen(false);
-    }, 1000);
   }
 
   useEffect(() => {
@@ -190,12 +191,13 @@ export default function CreateParcel() {
                   className='bg-[#242424]/50 rounded py-2 px-4 outline-none w-full placeholder-gray-200/30'  
                 />
 
-                <input type='number' placeholder='VAT (10%)' min={0} value={fee ? fee/10 : ''} disabled
+                <input type='text' placeholder='VAT (10%)' min={0} 
+                  value={fee ? (fee / 10).toLocaleString() : ''} disabled
                   className='bg-[#242424]/50 rounded py-2 px-4 outline-none w-full placeholder-gray-200/30'  
                 />
 
-                <input type='number' placeholder='Total (VND)' min={0} {...register('totalCharge')} 
-                  value={fee ? fee * 11 / 10 : ''} disabled
+                <input type='text' placeholder='Total (VND)' min={0} {...register('totalCharge')} 
+                  value={fee ? (fee * 11 / 10).toLocaleString() : ''} disabled
                   className='bg-[#242424]/50 rounded py-2 px-4 outline-none w-full placeholder-gray-200/30'  
                 />
               </div>

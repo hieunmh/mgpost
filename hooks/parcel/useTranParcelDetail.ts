@@ -5,7 +5,7 @@ interface useParcelDetailType {
   setIsOpenDetail: (isOpen: boolean) => void;
 }
 
-export const useParcelDetail = create<useParcelDetailType>(set => ({
+export const useTranParcelDetail = create<useParcelDetailType>(set => ({
   isOpenDetail: false,
   setIsOpenDetail: (isOpen: boolean) => set({ isOpenDetail: isOpen })
 }))

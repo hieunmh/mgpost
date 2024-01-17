@@ -4,30 +4,43 @@ import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import Image from 'next/image';
-import { FaBarcode } from 'react-icons/fa6';
+import { FaBarcode, FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
+import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
+import toast from 'react-hot-toast';
 
 type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}
 
 export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDetailType }) {
 
-  const { setIsOpenDetail } = useTranParcelDetail();
 
   const { userInfo } = useUser();
 
   let [loading, setLoading] = useState<boolean>(false);
 
-  const sendToAgg = async () => {
+  const { setIsOpenDetail } = useAggParcelDetail();
+
+  const confirmHasCome = async () => {
     setLoading(true);
-    const res = await axios.post('/api/parcel/sendToAgg', {
-      userID: userInfo?.id,
+    const res = await axios.post('/api/parcel/conFirm', {
+      current_location: parcelDetail.current_location,
       parcelCode: parcelDetail.code
     });
 
+    console.log(res.data.data);
+
     setLoading(false);
 
-    console.log(res);
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    } else {
+      toast.success('confirmed!');
+      setTimeout(() => {
+        setIsOpenDetail(false);
+      }, 1000);
+    }
   }
 
   return (
@@ -142,27 +155,48 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
           </div>
 
           <div className='flex flex-col space-y-5 md:space-y-0 md:flex-row md:space-x-5'>
-            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
-              px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-              onClick={sendToAgg}
-            >
-              {loading ? (
-                <div className='h-[24px] w-full items-center flex justify-center'>
-                  <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
-                    <circle cx="50" cy="50" r="40"  />
-                  </svg>
-                </div>
-              ) : (
-                <div className='h-[24px] w-full text-center flex items-center justify-center'>
-                  Sent to aggregation point
-                </div>
-              )}
-            </button>
+            {parcelDetail.status == 'Is coming' ? (
+              <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+                px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+                onClick={confirmHasCome}
+              >
+                {loading ? (
+                  <div className='h-[24px] w-full items-center flex justify-center'>
+                    <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                      <circle cx="50" cy="50" r="40"  />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                    <div className='flex items-center justify-center space-x-2'>
+                      <FaCheck size={20} />
+                      <p>Confirm has come</p>
+                    </div>
+                  </div>
+                )}
+              </button>
+            ) : (
+              <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+                px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+              >
+                {loading ? (
+                  <div className='h-[24px] w-full items-center flex justify-center'>
+                    <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                      <circle cx="50" cy="50" r="40"  />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                    Send to next aggregation point
+                  </div>
+                )}
+              </button>
+            )}
 
             <button className='w-full bg-gray-400/20 hover:bg-gray-400/10 
               px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
             >
-              Send to customer
+              Send to next transaction point
             </button>
           </div>
         </div>

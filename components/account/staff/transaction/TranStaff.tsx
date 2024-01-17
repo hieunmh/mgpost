@@ -1,16 +1,14 @@
-import { useTransactionStaff } from '@/hooks/staff/useTransactionStaff';
+import { useTransactionStaff } from '@/hooks/staff/useTranStaff';
 import React, { useEffect } from 'react';
 import Overview from './Overview';
 import Parcel from './Parcel';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
-import { useParcelDetail } from '@/hooks/parcel/useParcelDetail';
-import { usePage } from '@/hooks/parcel/usePage';
+import { usePage } from '@/hooks/parcel/useTranPage';
 
 
-export default function TransactionStaff() {
+export default function TranStaff() {
   const { menu } = useTransactionStaff();
 
   const { userInfo } = useUser();

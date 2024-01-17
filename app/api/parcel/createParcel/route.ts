@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   const create = await supabase.from('packages').insert({
     code: code,
     current_location: transaction.data?.address,
-    status: 'In stock'
+    status: 'In warehouse'
   });
 
   const getpk = await supabase.from('packages').select('*').eq('code', code).single();
@@ -59,10 +59,9 @@ export async function POST(request: NextRequest) {
 
   await supabase.from('packageStatus').insert({
     id: getpk.data?.id,
-    status: 'In stock',
+    status: 'In warehouse',
     current_location: transaction.data?.address,
     code: code,
-    isPassed: false,
   })
 
   return NextResponse.json({ status: create.status, error: create.error });

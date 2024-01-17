@@ -5,9 +5,9 @@ import React from 'react';
 import { GoHomeFill } from 'react-icons/go';
 import { BiSolidPackage } from 'react-icons/bi';
 import { HiViewGrid } from 'react-icons/hi';
-import { useTransactionStaff } from '@/hooks/staff/useTransactionStaff';
+import { useTransactionStaff } from '@/hooks/staff/useTranStaff';
 
-export default function StaffSidebar({}) {
+export default function TranStaffSidebar({}) {
 
   const { userInfo } = useUser();
 
