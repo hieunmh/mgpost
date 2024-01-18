@@ -26,3 +26,5 @@ export type PackageDetailsType = Database['public']['Tables']['packageDetails'][
 export type PackageStatusType = Database['public']['Tables']['packageStatus']['Row'];
 
 export type TransactionPointType = Database['public']['Tables']['transaction_points']['Row'];
+
+export type AggregationPointType = Database['public']['Tables']['aggregation_points']['Row'];

@@ -18,7 +18,7 @@ export default function Overview() {
 
   useEffect(() => {
     const getTransactionInfo = async () => {
-      const res = await axios.get(`/api/transaction/getTransactionInfo?userID=${userInfo?.id}`);
+      const res = await axios.get(`/api/transaction/getTranInfo?userID=${userInfo?.id}`);
       setTransactionInfo(res.data.data);
       
     }

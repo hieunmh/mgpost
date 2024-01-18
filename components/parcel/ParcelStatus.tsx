@@ -118,7 +118,7 @@ export default function ParcelStatus() {
               <div className='text-center text-[10px] md:text-base space-y-2'>
                 <p>Status</p>
                 <p className='bg-green-700 rounded-full py-1 px-3'>
-                  {parcelStatus?.packageStatus[0]?.status}
+                  {parcelStatus?.status}
                 </p>
               </div>
             </div>

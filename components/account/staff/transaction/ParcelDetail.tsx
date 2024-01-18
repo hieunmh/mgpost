@@ -41,9 +41,9 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
-      backdrop-blur-md duration-500 flex items-center justify-center px-5 py-5 sm:px-20 sm:py-20'
+      backdrop-blur-sm duration-500 flex items-center justify-center px-5 py-5 sm:px-20 sm:py-20'
     >
-      <motion.div className='w-[1100px] h-fit p-5 bg-[#363636]/70 rounded-2xl relative'
+      <motion.div className='w-[1100px] h-fit p-5 bg-[#363636] rounded-2xl relative'
         initial={{ opacity: 1, scale: 0.5 }} animate={{ opacity: 1, scale: [0.5, 1.03, 1] }}
         transition={{ type: 'just', duration: 0.5 }}
       >
@@ -132,7 +132,7 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
                 <div className='w-full flex h-fit'>
                   <p className='w-full flex items-center py-3'>3. Note * :</p>
-                  <p className='w-full flex items-center py-3'>{parcelDetail?.packageDetails.notes}</p>
+                  <p className='w-full flex items-center py-3 truncate'>{parcelDetail?.packageDetails.notes}</p>
                 </div>
 
                 <div className='w-full flex h-fit'>
@@ -142,11 +142,11 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
                 <div className='w-full flex h-fit rounded-b-md'>
                   <p className='w-full flex items-center py-3'>5. Total Fee:</p>
-                  <p className='w-full flex items-center py-3'>{parcelDetail.packageDetails.totalCharge} VND</p>
+                  <p className='w-full flex items-center py-3'>
+                    {parcelDetail.packageDetails.totalCharge?.toLocaleString()} VND
+                  </p>
                 </div>
               </div>
-
-              
             </div>
           </div>
 

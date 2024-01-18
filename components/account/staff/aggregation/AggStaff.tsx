@@ -7,6 +7,8 @@ import { usePage } from '@/hooks/parcel/useTranPage';
 import Parcel from './Parcel';
 import { useAggStaff } from '@/hooks/staff/useAggStaff';
 import IncomingParcel from './IncomingParcel';
+import { useAllTranByAgg } from '@/hooks/useAllTranByAgg';
+import { useAllAgg } from '@/hooks/useAllAgg';
 
 
 export default function TranStaff() {
@@ -16,6 +18,8 @@ export default function TranStaff() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { allTranByAgg, setAllTranByAgg } = useAllTranByAgg();  
+  const { allAgg, setAllAgg } = useAllAgg();
   
   useEffect(() => {
     const getAllParcel = async () => {
@@ -25,11 +29,33 @@ export default function TranStaff() {
       setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
     }
 
-    if (allParcel.length == 0) {
+    if (allParcel.length === 0) {
       getAllParcel();
     }
     
   }, []);
+
+  useEffect(() => {
+    const getAllTranByAgg = async () => {
+      const res = (await axios.get(`api/transaction/getAllTranByAgg?userID=${userInfo?.id}`)).data;
+      setAllTranByAgg(res.data);
+    }
+    
+    if (allTranByAgg.length === 0) {
+      getAllTranByAgg();
+    }
+  }, []);
+
+  useEffect(() => {
+    const getAllAgg = async () => {
+      const res = (await axios.get(`api/aggregation/getAllAgg?userID=${userInfo?.id}`)).data;
+      setAllAgg(res.data);
+    }
+
+    if (allAgg.length === 0) {
+      getAllAgg();
+    }
+  }, [])
 
 
   return (
