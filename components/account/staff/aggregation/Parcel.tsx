@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import { useSessionContext } from '@supabase/auth-helpers-react';
@@ -28,27 +27,27 @@ export default function Parcel() {
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
 
-  useEffect(() => {
-    const fetchAllParcel = async () => {
-      const channel = supabaseClient.channel('realtime parcel')
-      .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'packages',
-        }, 
-        async (payload: any) => {
-          const res = await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`);
-          setAllParcel(res.data.data);
-          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-          setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
-        }
-      ).subscribe()
+  // useEffect(() => {
+  //   const fetchAllParcel = async () => {
+  //     const channel = supabaseClient.channel('realtime parcel')
+  //     .on('postgres_changes', {
+  //         event: '*',
+  //         schema: 'public',
+  //         table: 'packages',
+  //       }, 
+  //       async (payload: any) => {
+  //         const res = await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`);
+  //         setAllParcel(res.data.data);
+  //         res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+  //         setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+  //       }
+  //     ).subscribe()
 
-      return () => supabaseClient.removeChannel(channel);
-    }
+  //     return () => supabaseClient.removeChannel(channel);
+  //   }
 
-    fetchAllParcel();
-  })
+  //   fetchAllParcel();
+  // })
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -75,13 +74,14 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.length === 0 ? (
+          {allParcel.filter(parcel => parcel.status == 'In warehouse').length === 0 ? (
             <div className='flex items-center font-bold text-2xl md:text-4xl mt-5 justify-center'>
               No parcel found!
             </div>
           ) : (
             <>
-              {allParcel?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
+              {allParcel.filter(parcel => parcel.status === 'In warehouse')
+                ?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
                 <div key={index} className={`w-full py-5 cursor-pointer
                   ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
                   onClick={() => {

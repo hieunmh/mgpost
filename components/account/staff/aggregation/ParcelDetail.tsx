@@ -14,9 +14,6 @@ type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, pack
 
 export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDetailType }) {
 
-
-  const { userInfo } = useUser();
-
   let [loading, setLoading] = useState<boolean>(false);
 
   const { setIsOpenDetail } = useAggParcelDetail();
@@ -36,7 +33,7 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
       toast.error('Fail!');
       return;
     } else {
-      toast.success('confirmed!');
+      toast.success('Confirmed!');
       setTimeout(() => {
         setIsOpenDetail(false);
       }, 1000);
@@ -176,28 +173,30 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
                 )}
               </button>
             ) : (
-              <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
-                px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-              >
-                {loading ? (
-                  <div className='h-[24px] w-full items-center flex justify-center'>
-                    <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
-                      <circle cx="50" cy="50" r="40"  />
-                    </svg>
-                  </div>
-                ) : (
-                  <div className='h-[24px] w-full text-center flex items-center justify-center'>
-                    Send to next aggregation point
-                  </div>
-                )}
-              </button>
+              <>
+                <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+                  px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+                >
+                  {loading ? (
+                    <div className='h-[24px] w-full items-center flex justify-center'>
+                      <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                        <circle cx="50" cy="50" r="40"  />
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                      Send to next aggregation point
+                    </div>
+                  )}
+                </button>
+                <button className='w-full bg-gray-400/20 hover:bg-gray-400/10 
+                  px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+                >
+                  Send to next transaction point
+                </button>
+              </>
             )}
 
-            <button className='w-full bg-gray-400/20 hover:bg-gray-400/10 
-              px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-            >
-              Send to next transaction point
-            </button>
           </div>
         </div>
 

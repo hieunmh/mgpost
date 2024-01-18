@@ -4,22 +4,21 @@ import { motion } from 'framer-motion';
 import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
-import CreateParcel from './CreateParcel';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
+import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
+import ParcelDetail from './ParcelDetail';
 
-export default function Parcel() {
+export default function IncomingParcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
-  const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
+  const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
 
   const { userInfo } = useUser();
@@ -29,28 +28,27 @@ export default function Parcel() {
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
 
-  useEffect(() => {
-    const fetchAllParcel = async () => {
-      const channel = supabaseClient.channel('realtime parcel')
-      .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'packages',
-        }, 
-        async (payload: any) => {
-          const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
-          setAllParcel(res.data.data);
-          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-          setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
-        }
-      ).subscribe()
+  // useEffect(() => {
+  //   const fetchAllParcel = async () => {
+  //     const channel = supabaseClient.channel('realtime parcel')
+  //     .on('postgres_changes', {
+  //         event: '*',
+  //         schema: 'public',
+  //         table: 'packages',
+  //       }, 
+  //       async (payload: any) => {
+  //         const res = await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`);
+  //         setAllParcel(res.data.data);
+  //         res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+  //         setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+  //       }
+  //     ).subscribe()
 
-      return () => supabaseClient.removeChannel(channel);
-    }
+  //     return () => supabaseClient.removeChannel(channel);
+  //   }
 
-    fetchAllParcel();
-  })
-
+  //   fetchAllParcel();
+  // })
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -60,13 +58,6 @@ export default function Parcel() {
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
           <p className='font-extrabold text-base sm:text-3xl'>Parcel List</p>
-          <button className='flex font-medium items-center justify-center 
-            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
-            onClick={() => setIsOpen(true)}
-          >
-            <LuPackagePlus className='mb-1 sm:text-[24px]' />
-            <p className='tracking-[1px] text-xs sm:text-sm'>Create parcel</p>
-          </button>
         </div>
 
         <div className='w-full h-full flex flex-col'>
@@ -84,18 +75,18 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.filter(parcel => parcel.status === 'In warehouse').length === 0 ? (
-            <div className='flex items-center font-bold mt-5 text-2xl md:text-4xl justify-center'>
+          {allParcel.filter(parcel => parcel.status === 'Is coming').length === 0 ? (
+            <div className='flex items-center font-bold text-2xl md:text-4xl mt-5 justify-center'>
               No parcel found!
             </div>
           ) : (
             <>
-              {allParcel?.filter(parcel => parcel.status === 'In warehouse')
+              {allParcel?.filter(parcel => parcel.status === 'Is coming')
               .slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
                 <div key={index} className={`w-full py-5 cursor-pointer
                   ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
                   onClick={() => {
-                    setParcelDetail(parcel);
+                    setParcelDetail(parcel)
                     setIsOpenDetail(true);
                   }}
                 >
@@ -115,7 +106,7 @@ export default function Parcel() {
                       /{String(new Date(parcel.created_at).getFullYear())}
                     </p>
     
-                    <p className='sm:col-span-2 col-span-4 text-center'>
+                    <p className='sm:col-span-2 col-span-4 text-center truncate'>
                       {parcel.status}
                     </p>
                   </div>
@@ -152,7 +143,6 @@ export default function Parcel() {
         </div>
       </div>
 
-      {isOpen && <CreateParcel />}
       {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
     </motion.div>
   )

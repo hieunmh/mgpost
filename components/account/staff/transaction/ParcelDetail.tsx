@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { FaBarcode } from 'react-icons/fa6';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
+import toast from 'react-hot-toast';
 
 type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}
 
@@ -27,7 +28,15 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
     setLoading(false);
 
-    console.log(res);
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    } else {
+      toast.success('Sending successfully!');
+      setTimeout(() => {
+        setIsOpenDetail(false);
+      }, 1000);
+    }
   }
 
   return (

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Overview from './Overview';
 import Parcel from './Parcel';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import IncomingParcel from './IncomingParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import { usePage } from '@/hooks/parcel/useTranPage';
@@ -35,6 +36,7 @@ export default function TranStaff() {
     <div className='sm:px-5 px-3 pb-3 sm:pb-5 h-[calc(100vh-100px)] w-full overflow-y-hidden'>
       {menu === 'overview' && <Overview />}
       {menu === 'parcel' && <Parcel />}
+      {menu === 'iscoming' && <IncomingParcel />}
     </div>
   )
 }

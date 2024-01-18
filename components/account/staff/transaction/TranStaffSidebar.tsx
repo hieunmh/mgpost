@@ -5,6 +5,8 @@ import React from 'react';
 import { GoHomeFill } from 'react-icons/go';
 import { BiSolidPackage } from 'react-icons/bi';
 import { HiViewGrid } from 'react-icons/hi';
+import { TbPackageExport } from 'react-icons/tb';
+
 import { useTransactionStaff } from '@/hooks/staff/useTranStaff';
 
 export default function TranStaffSidebar({}) {
@@ -43,7 +45,15 @@ export default function TranStaffSidebar({}) {
             onClick={() => setMenu('parcel')}
           >
             <BiSolidPackage size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Parcel</p>
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>In warehouse</p>
+          </button>
+
+          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
+            text-lg text-gray-300 ${menu == 'iscoming' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('iscoming')}
+          >
+            <TbPackageExport size={30} />
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Is coming</p>
           </button>
         </div>
       </div>

@@ -24,13 +24,13 @@ export async function POST(request: NextRequest) {
 
   await supabase.from('packages').update({ 
     current_location: nextAgg.data?.aggregation_address,
-    status: 'Coming to warehouse'
+    status: 'Is coming'
   }).eq('code', parcelCode);
 
   await supabase.from('packageStatus').insert({
     current_location: nextAgg.data?.aggregation_address,
     code: parcelCode,
-    status: 'Coming to warehouse'
+    status: 'Is coming'
   });
 
 

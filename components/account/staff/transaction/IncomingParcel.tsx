@@ -15,7 +15,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 
-export default function Parcel() {
+export default function IncomingParcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
@@ -60,13 +60,6 @@ export default function Parcel() {
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
           <p className='font-extrabold text-base sm:text-3xl'>Parcel List</p>
-          <button className='flex font-medium items-center justify-center 
-            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
-            onClick={() => setIsOpen(true)}
-          >
-            <LuPackagePlus className='mb-1 sm:text-[24px]' />
-            <p className='tracking-[1px] text-xs sm:text-sm'>Create parcel</p>
-          </button>
         </div>
 
         <div className='w-full h-full flex flex-col'>
@@ -84,13 +77,13 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.filter(parcel => parcel.status === 'In warehouse').length === 0 ? (
+          {allParcel.filter(parcel => parcel.status === 'Is coming').length === 0 ? (
             <div className='flex items-center font-bold mt-5 text-2xl md:text-4xl justify-center'>
               No parcel found!
             </div>
           ) : (
             <>
-              {allParcel?.filter(parcel => parcel.status === 'In warehouse')
+              {allParcel?.filter(parcel => parcel.status === 'Is coming')
               .slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
                 <div key={index} className={`w-full py-5 cursor-pointer
                   ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
