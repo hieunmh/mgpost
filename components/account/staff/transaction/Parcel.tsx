@@ -8,7 +8,7 @@ import CreateParcel from './CreateParcel';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { useParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
+import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
@@ -19,7 +19,7 @@ export default function Parcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
-  const { isOpenDetail, setIsOpenDetail } = useParcelDetail();
+  const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
 
   const { userInfo } = useUser();
