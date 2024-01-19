@@ -18,7 +18,7 @@ export default function TranStaffSidebar({}) {
   return (
     <div className='w-[70px] lg:w-[30vw] lg:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between'>
       <div>
-        <div className='py-5 lg:px-5 px-0 h-[100px] flex items-center justify-center'>
+        <div className='py-3 sm:py-5 lg:px-5 px-0 h-fit flex items-center justify-center'>
           <Link href={'/'} className='bg-gray-300 rounded-full lg:rounded p-1.5 lg:p-2 
             items-center w-fit lg:w-full flex font-semibold lg:space-x-2 justify-center'
           >

@@ -46,9 +46,9 @@ export default function TranStaffSidebar({}) {
   })
 
   return (
-    <div className='w-[70px] lg:w-[30vw] lg:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between'>
+    <div className='w-[70px] lg:w-[30vw] lg:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between rounded-r'>
       <div>
-        <div className='py-5 lg:px-5 px-0 h-[100px] flex items-center justify-center'>
+        <div className='py-3 sm:py-5 lg:px-5 px-0 h-fit flex items-center justify-center'>
           <Link href={'/'} className='bg-gray-300 rounded-full lg:rounded p-1.5 lg:p-2 
             items-center w-fit lg:w-full flex font-semibold lg:space-x-2 justify-center'
           >
@@ -62,17 +62,10 @@ export default function TranStaffSidebar({}) {
             {userInfo?.role}
           </p>
 
-          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'overview' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('overview')}
-          >
-            <HiViewGrid size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Overview</p>
-          </button>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'parcel' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('parcel')}
+            text-lg text-gray-300 ${menu == 'warehouse' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('warehouse')}
           >
             <LuPackageOpen size={30} />
             <p className='hidden lg:block font-semibold text-sm md:text-base'>In warehouse</p>

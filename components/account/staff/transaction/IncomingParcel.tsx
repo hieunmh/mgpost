@@ -36,9 +36,9 @@ export default function IncomingParcel() {
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
-      className='w-full h-[calc(100%-110px)] sm:h-[calc(100%-120px)] rounded bg-neutral-500/10 p-3 sm:p-5'
+      className='w-full h-[calc(100vh-184px)] sm:h-[calc(100vh-216px)] rounded bg-neutral-500/10 p-3 sm:p-5'
     >
-      <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
+      <div className='w-full h-full rounded text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
           <p className='font-extrabold text-base sm:text-3xl'>Is coming</p>
         </div>

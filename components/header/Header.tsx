@@ -49,7 +49,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <div className='h-[100px] w-full p-5 flex justify-between items-center bg-transparent'>
+    <div className='h-fit w-full px-3 sm:px-5 py-3 sm:py-5 flex justify-between items-center bg-transparent'>
       <div className=''>
         <Link href={'/'}>
           <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
@@ -58,7 +58,7 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className='lg:block hidden'>
+      <div className=''>
         {!user ? (
           <div className='space-x-4 h-fit'>
             <Link href={'/login'}>
@@ -103,13 +103,13 @@ export default function Header() {
         )}
       </div>
 
-      <div className='lg:hidden overflow-x-hidden flex items-center justify-center'>
+      {/* <div className='lg:hidden overflow-x-hidden flex items-center justify-center'>
         <button className='bg-gray-200 rounded-full' onClick={toggleMenu}>
           <TiPlus size={24} className={`m-1.5 transition duration-500 ${showMenu ? 'rotate-[135deg]' : 'rotate-0'}`} />
         </button>
-      </div>
+      </div> */}
 
-      <Menu userDetail={userInfo} />
+      {/* <Menu userDetail={userInfo} /> */}
     </div>
   )
 }

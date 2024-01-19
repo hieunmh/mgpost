@@ -72,13 +72,13 @@ export default function ParcelStatus() {
             />
             <button onClick={handleSubmit(getParcel)} className=' bg-gray-200 h-12 px-4 rounded'>
               {loading ? (
-                <div className='h-[24px] w-[60px] items-center flex justify-center'>
+                <div className='h-[24px] w-[24px] items-center flex justify-center'>
                   <svg viewBox="0 0 100 100" className='loading h-full stroke-[#363636]'>
                     <circle cx="50" cy="50" r="40"  />
                   </svg>
                 </div>
               ) : (
-                <div className='h-[24px] w-[60px] font-semibold text-center flex items-center justify-center'>
+                <div className='h-[24px] w-[24px] font-semibold text-center flex items-center justify-center'>
                   <TiArrowRightThick size={30} className='text-[#363636]' />
                 </div>
               )}
