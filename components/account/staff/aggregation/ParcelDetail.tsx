@@ -18,7 +18,6 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
   const { setIsOpenDetail } = useAggParcelDetail();
 
-
   const confirmHasCome = async () => {
     setLoading(true);
     const res = await axios.post('/api/parcel/conFirm', {

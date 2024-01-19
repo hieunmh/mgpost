@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
-import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 
 import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
@@ -13,17 +12,16 @@ import { BsFillSendFill } from 'react-icons/bs';
 
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import ParcelDetail from './ParcelDetail';
-import { useNextAddress } from '@/hooks/parcel/useNextAddress';
+import { useAggNextAddress } from '@/hooks/parcel/useAggNextAddress';
 import NextAddress from './NextAddress';
 
 
 export default function Parcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
-  const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
-  const { isOpenNextAddress, setIsOpenNextAddress } = useNextAddress();
+  const { isOpenNextAddress, setIsOpenNextAddress } = useAggNextAddress();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();

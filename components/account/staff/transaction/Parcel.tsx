@@ -17,6 +17,8 @@ import { BsFillSendFill } from 'react-icons/bs';
 
 import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
+import NextAddress from './NextAddress';
+import { useTranNextAddress } from '@/hooks/parcel/useTranNextAddress';
 
 export default function Parcel() {
 
@@ -24,6 +26,7 @@ export default function Parcel() {
   const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { isOpenNextAddress, setIsOpenNextAddress } = useTranNextAddress();
 
   const { userInfo } = useUser();
 
@@ -130,7 +133,7 @@ export default function Parcel() {
                     <div className='w-[90px] space-x-1 flex items-center justify-center'>
                       <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
                         onClick={() => {
-                          setParcelDetail(parcel)
+                          setParcelDetail(parcel);
                           setIsOpenDetail(true);
                         }}
                       >
@@ -139,14 +142,19 @@ export default function Parcel() {
 
                       <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
                         onClick={() => {
-                          
+                          setParcelDetail(parcel);
+                          setIsOpenNextAddress(true);
                         }}
                       >
                         <BsFillSendFill size={15} />
                       </button>
                     </div>
+                    
                 </div>
+                
               ))}
+
+
             </>
           )}
         </div>
@@ -180,6 +188,7 @@ export default function Parcel() {
 
       {isOpen && <CreateParcel />}
       {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
+      {isOpenNextAddress && <NextAddress parcelDetail={parcelDetail!} />}
     </motion.div>
   )
 }

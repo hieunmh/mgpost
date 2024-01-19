@@ -4,7 +4,7 @@ import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import Image from 'next/image';
-import { FaBarcode } from 'react-icons/fa6';
+import { FaBarcode, FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import toast from 'react-hot-toast';
@@ -33,6 +33,28 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
       return;
     } else {
       toast.success('Sending successfully!');
+      setTimeout(() => {
+        setIsOpenDetail(false);
+      }, 1000);
+    }
+  }
+
+  const confirmHasCome = async () => {
+    setLoading(true);
+    const res = await axios.post('/api/parcel/conFirm', {
+      current_location: parcelDetail.current_location,
+      parcelCode: parcelDetail.code
+    });
+
+    console.log(res.data.data);
+
+    setLoading(false);
+
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    } else {
+      toast.success('Confirmed!');
       setTimeout(() => {
         setIsOpenDetail(false);
       }, 1000);
@@ -150,30 +172,27 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
             </div>
           </div>
 
-          <div className='flex flex-col space-y-5 md:space-y-0 md:flex-row md:space-x-5'>
-            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
-              px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-              onClick={sendToAgg}
-            >
-              {loading ? (
-                <div className='h-[24px] w-full items-center flex justify-center'>
-                  <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
-                    <circle cx="50" cy="50" r="40"  />
-                  </svg>
+          {parcelDetail.status === 'Is coming' && (
+           <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+            px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
+            onClick={confirmHasCome}
+          >
+            {loading ? (
+              <div className='h-[24px] w-full items-center flex justify-center'>
+                <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                  <circle cx="50" cy="50" r="40"  />
+                </svg>
+              </div>
+            ) : (
+              <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                <div className='flex items-center justify-center space-x-2'>
+                  <FaCheck size={20} />
+                  <p>Confirm has come</p>
                 </div>
-              ) : (
-                <div className='h-[24px] w-full text-center flex items-center justify-center'>
-                  Sent to aggregation point
-                </div>
-              )}
-            </button>
-
-            <button className='w-full bg-gray-400/20 hover:bg-gray-400/10 
-              px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-            >
-              Send to customer
-            </button>
-          </div>
+              </div>
+           )}
+         </button>
+          )}
         </div>
 
       </motion.div>

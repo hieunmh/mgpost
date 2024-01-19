@@ -170,7 +170,6 @@ export default function IncomingParcel() {
         </div>
       </div>
 
-      {isOpen && <CreateParcel />}
       {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
     </motion.div>
   )
