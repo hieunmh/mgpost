@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNextAddress } from '@/hooks/parcel/useAggNextAddress';
+import { useAggNextAddress } from '@/hooks/parcel/useAggNextAddress';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import { useAllAgg } from '@/hooks/useAllAgg';
@@ -14,7 +14,7 @@ type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, pack
 
 export default function NextAddress({ parcelDetail } : { parcelDetail: ParcelDetailType }) {
 
-  const { isOpenNextAddress, setIsOpenNextAddress } = useNextAddress();
+  const { isOpenNextAddress, setIsOpenNextAddress } = useAggNextAddress();
 
   const { allAgg } = useAllAgg();
   const { allTranByAgg }  = useAllTranByAgg();
