@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useUser } from '@/hooks/useUser';
 import axios from 'axios';
-import { useAllTranStaff } from '@/hooks/manager/userAllTranStaff';
+import { useAllTranStaff } from '@/hooks/manager/tran/userAllTranStaff';
 import { useSessionContext } from '@supabase/auth-helpers-react';
-import { useAllTranStaffPage } from '@/hooks/manager/useAllTranStaffPage';
+import { useAllTranStaffPage } from '@/hooks/manager/tran/useAllTranStaffPage';
 import { MdEdit, MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { FaEye, FaUserPlus } from 'react-icons/fa';
+import { useCreateAccount } from '@/hooks/manager/tran/useCreateAccount';
+import CreateAccount from './CreateAccount';
 
 export default function Manager() {
 
@@ -14,6 +16,7 @@ export default function Manager() {
 
   const { allTranStaff, setAllTranStaff } = useAllTranStaff();
   const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useAllTranStaffPage();
+  const { isOpen, setIsOpen } = useCreateAccount();
 
   const { supabaseClient } = useSessionContext();
 
@@ -62,6 +65,7 @@ export default function Manager() {
           <p className='font-extrabold text-base sm:text-3xl'>Account</p>
           <button className='flex font-medium items-center justify-center 
             space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
+            onClick={() => setIsOpen(true)}
           >
             <FaUserPlus className='mb-1 sm:text-[24px]' />
             <p className='tracking-[1px] text-xs sm:text-sm'>Create account</p>
@@ -155,6 +159,8 @@ export default function Manager() {
           </div>
         </div>
       </div>
+
+      {isOpen && <CreateAccount  />}
     </motion.div>
   )
 }

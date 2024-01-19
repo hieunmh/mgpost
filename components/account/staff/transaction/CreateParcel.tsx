@@ -106,7 +106,7 @@ export default function CreateParcel() {
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
-      backdrop-blur-md duration-500 flex items-center justify-center px-5 py-5 sm:px-20 sm:py-20'
+      backdrop-blur-sm duration-500 flex items-center justify-center px-5 py-5 sm:px-20 sm:py-20'
     > 
       <motion.div className='w-[1100px] h-fit p-5 bg-[#363636]/70 rounded-2xl relative'
         initial={{ opacity: 1, scale: 0.5 }} animate={{ opacity: 1, scale: [0.5, 1.03, 1] }}
