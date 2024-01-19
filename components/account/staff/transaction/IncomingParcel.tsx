@@ -31,37 +31,16 @@ export default function IncomingParcel() {
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
 
-  useEffect(() => {
-    const fetchAllParcel = async () => {
-      const channel = supabaseClient.channel('realtime parcel')
-      .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'packages',
-        }, 
-        async (payload: any) => {
-          const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
-          setAllParcel(res.data.data);
-          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-          setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
-        }
-      ).subscribe()
-
-      return () => supabaseClient.removeChannel(channel);
-    }
-
-    fetchAllParcel();
-  })
 
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
-      className='w-full h-full rounded bg-neutral-500/10 p-3 sm:p-5'
+      className='w-full h-[calc(100%-110px)] sm:h-[calc(100%-120px)] rounded bg-neutral-500/10 p-3 sm:p-5'
     >
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
-          <p className='font-extrabold text-base sm:text-3xl'>Parcel List</p>
+          <p className='font-extrabold text-base sm:text-3xl'>Is coming</p>
         </div>
 
         <div className='w-full h-full flex flex-col'>
@@ -79,7 +58,7 @@ export default function IncomingParcel() {
                 <p className='sm:flex hidden items-center justify-center text-center col-span-6 md:col-span-3'>Created date</p>
               </div>
 
-              <p className='w-[90px]'></p>
+              <p className='w-[90px] text-center'>Action</p>
             </div>
           </div>
 
@@ -139,34 +118,33 @@ export default function IncomingParcel() {
                     </div>
                 </div>
               ))}
+              <div className='w-full h-[50px] flex items-center justify-center'>
+                <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
+                  <button onClick={() => { 
+                    if (page == 1) setPage(1);
+                    else setPage(page - 1)
+                  }}>
+                    <MdKeyboardArrowLeft className='md:text-2xl text-xl' />
+                  </button>
+
+                  {[...Array(numberPage)].map((key, index) => (
+                    <button key={index} onClick={() =>(setPage(index + 1))}
+                    className={`md:text-lg text-sm ${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+
+                  <button onClick={() => {
+                    if (page == numberPage) setPage(numberPage);
+                    else setPage(page + 1);
+                  }}>
+                    <MdKeyboardArrowRight className='md:text-2xl text-xl' />
+                  </button>
+                </div>
+              </div>
             </>
           )}
-        </div>
-
-        <div className='w-full h-[50px] flex items-center justify-center'>
-          <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
-            <button onClick={() => { 
-              if (page == 1) setPage(1);
-              else setPage(page - 1)
-            }}>
-              <MdKeyboardArrowLeft className='md:text-2xl text-xl' />
-            </button>
-
-            {[...Array(numberPage)].map((key, index) => (
-              <button key={index} onClick={() =>(setPage(index + 1))}
-              className={`md:text-lg text-sm ${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
-              >
-                {index + 1}
-              </button>
-            ))}
-
-            <button onClick={() => {
-              if (page == numberPage) setPage(numberPage);
-              else setPage(page + 1);
-            }}>
-              <MdKeyboardArrowRight className='md:text-2xl text-xl' />
-            </button>
-          </div>
         </div>
       </div>
 

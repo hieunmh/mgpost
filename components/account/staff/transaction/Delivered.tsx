@@ -2,29 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
-
-import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
+import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
+import CreateParcel from './CreateParcel';
+import { useSessionContext } from '@supabase/auth-helpers-react';
+import axios from 'axios';
+import { useUser } from '@/hooks/useUser';
+import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
 
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
 import { BsFillSendFill } from 'react-icons/bs';
 
-import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ParcelDetail from './ParcelDetail';
-import { useAggNextAddress } from '@/hooks/parcel/useAggNextAddress';
-import NextAddress from './NextAddress';
+import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 
-
-export default function Parcel() {
+export default function Delivered() {
 
   const { allParcel, setAllParcel } = useAllParcel();
-  const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
+  const { isOpen, setIsOpen } = useCreateParcel();
+  const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
-  const { isOpenNextAddress, setIsOpenNextAddress } = useAggNextAddress();
+
+  const { userInfo } = useUser();
+
+  const { supabaseClient } = useSessionContext();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
+
 
 
   return (
@@ -34,7 +40,7 @@ export default function Parcel() {
     >
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
-          <p className='font-extrabold text-base sm:text-3xl'>Warehouse</p>
+          <p className='font-extrabold text-base sm:text-3xl'>Delivered</p>
         </div>
 
         <div className='w-full h-full flex flex-col'>
@@ -56,13 +62,13 @@ export default function Parcel() {
             </div>
           </div>
 
-          {allParcel.filter(parcel => parcel.status == 'In warehouse').length === 0 ? (
+          {allParcel.filter(parcel => parcel.status === 'Delivering' || parcel.status === 'Delivered').length === 0 ? (
             <div className='flex items-center font-bold text-2xl md:text-4xl mt-5 justify-center'>
               No parcel found!
             </div>
           ) : (
             <>
-              {allParcel.filter(parcel => parcel.status === 'In warehouse')
+              {allParcel.filter(parcel => parcel.status === 'Delivering' || parcel.status === 'Delivered')
                 ?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
                 <div key={index} className={`w-full cursor-pointer py-3 flex justify-between font-medium tracking-[1px] 
                   text-xs lg:text-sm ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
@@ -104,8 +110,7 @@ export default function Parcel() {
 
                       <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
                         onClick={() => {
-                          setParcelDetail(parcel);
-                          setIsOpenNextAddress(true);
+                          
                         }}
                       >
                         <BsFillSendFill size={15} />
@@ -113,39 +118,39 @@ export default function Parcel() {
                     </div>
                 </div>
               ))}
+              <div className='w-full h-[50px] flex items-center justify-center'>
+                <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
+                  <button onClick={() => { 
+                    if (page == 1) setPage(1);
+                    else setPage(page - 1)
+                  }}>
+                    <MdKeyboardArrowLeft className='md:text-2xl text-xl' />
+                  </button>
+
+                  {[...Array(numberPage)].map((key, index) => (
+                    <button key={index} onClick={() =>(setPage(index + 1))}
+                    className={`md:text-lg text-sm ${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+
+                  <button onClick={() => {
+                    if (page == numberPage) setPage(numberPage);
+                    else setPage(page + 1);
+                  }}>
+                    <MdKeyboardArrowRight className='md:text-2xl text-xl' />
+                  </button>
+                </div>
+              </div>
             </>
           )}
         </div>
 
-        <div className='w-full h-[50px] flex items-center justify-center'>
-          <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
-            <button onClick={() => { 
-              if (page == 1) setPage(1);
-              else setPage(page - 1)
-            }}>
-              <MdKeyboardArrowLeft className='md:text-2xl text-xl' />
-            </button>
-
-            {[...Array(numberPage)].map((key, index) => (
-              <button key={index} onClick={() =>(setPage(index + 1))}
-              className={`md:text-lg text-sm ${index + 1 == page ? 'text-gray-200' : 'text-gray-200/10'}`}
-              >
-                {index + 1}
-              </button>
-            ))}
-
-            <button onClick={() => {
-              if (page == numberPage) setPage(numberPage);
-              else setPage(page + 1);
-            }}>
-              <MdKeyboardArrowRight className='md:text-2xl text-xl' />
-            </button>
-          </div>
-        </div>
+        
       </div>
 
       {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
-      {isOpenNextAddress && <NextAddress parcelDetail={parcelDetail!} />}
     </motion.div>
   )
 }

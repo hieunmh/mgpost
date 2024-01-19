@@ -6,6 +6,6 @@ interface useTransactionStaffType {
 }
 
 export const useTransactionStaff = create<useTransactionStaffType>(set => ({
-  menu: 'overview',
+  menu: 'warehouse',
   setMenu: (menu: string) => set({ menu: menu })
 })) 

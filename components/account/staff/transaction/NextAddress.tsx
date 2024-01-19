@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
-import { useAllAgg } from '@/hooks/useAllAgg';
-import { useAllTranByAgg } from '@/hooks/useAllTranByAgg';
 import Image from 'next/image';
 import { FaBarcode } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useTranNextAddress } from '@/hooks/parcel/useTranNextAddress';
+import { useUser } from '@/hooks/useUser';
 
 type ParcelDetailType = PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}
 
@@ -16,13 +15,50 @@ export default function NextAddress({ parcelDetail } : { parcelDetail: ParcelDet
 
   const { isOpenNextAddress, setIsOpenNextAddress } = useTranNextAddress();
 
-  const { allAgg } = useAllAgg();
-  const { allTranByAgg }  = useAllTranByAgg();
+  const { userInfo } = useUser();
 
-  let [nextAddress, setNextAddress] = useState<string>('');
+
   let [loading, setLoading] = useState<boolean>(false);
+  let [loadingAgg, setLoadingAgg]  = useState<boolean>(false);
 
+  const sentToAgg = async () => {
+    setLoadingAgg(true);
 
+    const res = await axios.post('api/parcel/sendToAgg', {
+      userID: userInfo?.id,
+      parcelCode: parcelDetail.code,
+    })
+
+    setLoadingAgg(false);
+
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    }
+
+    toast.success('Sent successfully!');
+
+    setTimeout(() => setIsOpenNextAddress(false), 1000);
+  }
+
+  const sendToCustomer = async () => {
+    setLoading(true);
+    
+    const res = await axios.post('api/parcel/sendToCustomer', {
+      parcelCode: parcelDetail.code,
+    })
+
+    setLoading(false);
+
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    }
+
+    toast.success('Delivering to customer!');
+
+    setTimeout(() => setIsOpenNextAddress(false), 1000);
+  }
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
@@ -59,10 +95,11 @@ export default function NextAddress({ parcelDetail } : { parcelDetail: ParcelDet
 
 
           {parcelDetail.packageStatus.length <= 1 && (
-            <button className='w-full bg-[#5c9ead] py-3 px-5 rounded flex items-center justify-center text-center'
-
+            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+              py-3 px-5 rounded flex items-center justify-center text-center'
+              onClick={sentToAgg}
             >
-              {loading ? (
+              {loadingAgg ? (
                   <div className='h-[24px] w-full items-center flex justify-center'>
                     <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
                       <circle cx="50" cy="50" r="40"  />
@@ -78,7 +115,9 @@ export default function NextAddress({ parcelDetail } : { parcelDetail: ParcelDet
             </button> 
           )}
 
-          <button className='w-full bg-[#5c9ead] py-3 px-5 rounded flex items-center justify-center text-center'
+          <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+            py-3 px-5 rounded flex items-center justify-center text-center'
+            onClick={sendToCustomer}
           >
             {loading ? (
                 <div className='h-[24px] w-full items-center flex justify-center'>
@@ -93,7 +132,27 @@ export default function NextAddress({ parcelDetail } : { parcelDetail: ParcelDet
                   </div>
                 </div>
               )}
-          </button> 
+          </button>
+
+          {parcelDetail.status === 'Delivering' && (
+            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
+              py-3 px-5 rounded flex items-center justify-center text-center'
+            >
+              {loading ? (
+                  <div className='h-[24px] w-full items-center flex justify-center'>
+                    <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
+                      <circle cx="50" cy="50" r="40"  />
+                    </svg>
+                  </div>
+                ) : (
+                  <div className='h-[24px] w-full text-center flex items-center justify-center'>
+                    <div className='flex items-center justify-center space-x-2'>
+                      <p>Customer has received the goods</p>
+                    </div>
+                  </div>
+                )}
+            </button>
+          )} 
 
         </div>
       </motion.div>

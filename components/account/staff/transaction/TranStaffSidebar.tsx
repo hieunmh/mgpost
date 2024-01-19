@@ -33,19 +33,11 @@ export default function TranStaffSidebar({}) {
           </p>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'overview' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('overview')}
-          >
-            <HiViewGrid size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Overview</p>
-          </button>
-
-          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'parcel' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('parcel')}
+            text-lg text-gray-300 ${menu == 'warehouse' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('warehouse')}
           >
             <BiSolidPackage size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>In warehouse</p>
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Warehouse</p>
           </button>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
@@ -54,6 +46,14 @@ export default function TranStaffSidebar({}) {
           >
             <TbPackageExport size={30} />
             <p className='hidden lg:block font-semibold text-sm md:text-base'>Is coming</p>
+          </button>
+
+          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
+            text-lg text-gray-300 ${menu == 'delivered' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('delivered')}
+          >
+            <TbPackageExport size={30} />
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Delivered</p>
           </button>
         </div>
       </div>

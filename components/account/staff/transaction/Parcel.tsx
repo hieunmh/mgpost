@@ -28,44 +28,19 @@ export default function Parcel() {
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
   const { isOpenNextAddress, setIsOpenNextAddress } = useTranNextAddress();
 
-  const { userInfo } = useUser();
-
-  const { supabaseClient } = useSessionContext();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
-
-  useEffect(() => {
-    const fetchAllParcel = async () => {
-      const channel = supabaseClient.channel('realtime parcel')
-      .on('postgres_changes', {
-          event: '*',
-          schema: 'public',
-          table: 'packages',
-        }, 
-        async (payload: any) => {
-          const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
-          setAllParcel(res.data.data);
-          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-          setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
-        }
-      ).subscribe()
-
-      return () => supabaseClient.removeChannel(channel);
-    }
-
-    fetchAllParcel();
-  })
 
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
-      className='w-full h-full rounded bg-neutral-500/10 p-3 sm:p-5'
+      className='w-full h-[calc(100%-110px)] sm:h-[calc(100%-120px)] rounded bg-neutral-500/10 p-3 sm:p-5'
     >
       <div className='w-full h-full text-gray-300 flex flex-col space-y-8'>
         <div className='flex justify-between items-center text-center'>
-          <p className='font-extrabold text-base sm:text-3xl'>Parcel List</p>
+          <p className='font-extrabold text-base sm:text-3xl'>Warehouse</p>
           <button className='flex font-medium items-center justify-center 
             space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
             onClick={() => setIsOpen(true)}
@@ -90,7 +65,7 @@ export default function Parcel() {
                 <p className='sm:flex hidden items-center justify-center text-center col-span-6 md:col-span-3'>Created date</p>
               </div>
 
-              <p className='w-[90px]'></p>
+              <p className='w-[90px] text-center'>Action</p>
             </div>
           </div>
 

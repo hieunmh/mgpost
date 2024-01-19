@@ -6,6 +6,6 @@ interface useAggregationStaffType {
 }
 
 export const useAggStaff = create<useAggregationStaffType>(set => ({
-  menu: 'overview',
+  menu: 'warehouse',
   setMenu: (menu: string) => set({ menu: menu })
 })) 
