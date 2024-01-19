@@ -34,11 +34,11 @@ export default function Header() {
     if (error) {
       toast.error(error.message);
     } else {
+      router.push('/');
+      router.refresh();
       toast.success('Logged out!');
     }
 
-    router.push('/');
-    router.refresh();
   }
 
   const toggleMenu = () => {

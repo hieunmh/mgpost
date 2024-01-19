@@ -27,4 +27,8 @@ export type PackageStatusType = Database['public']['Tables']['packageStatus']['R
 
 export type TransactionPointType = Database['public']['Tables']['transaction_points']['Row'];
 
+export type TransactionType = Database['public']['Tables']['transaction']['Row'];
+
 export type AggregationPointType = Database['public']['Tables']['aggregation_points']['Row'];
+
+export type AggregationType = Database['public']['Tables']['aggregation']['Row'];

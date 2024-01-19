@@ -1,11 +1,11 @@
-import { useTransactionStaff } from '@/hooks/staff/useTranStaff';
+import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
 import React, { useEffect } from 'react';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import { usePage } from '@/hooks/parcel/useTranPage';
 import Parcel from './Parcel';
-import { useAggStaff } from '@/hooks/staff/useAggStaff';
+import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import IncomingParcel from './IncomingParcel';
 import { useAllTranByAgg } from '@/hooks/useAllTranByAgg';
 import { useAllAgg } from '@/hooks/useAllAgg';
@@ -73,7 +73,9 @@ export default function TranStaff() {
   }, [])
 
   return (
-    <div className='sm:px-5 px-3 pb-3 sm:pb-5 space-y-3 sm:space-y-5 h-[calc(100vh-76px)] w-full overflow-hidden'>
+    <div className='sm:px-5 px-3 pb-3 sm:pb-5 space-y-3 sm:space-y-5 h-[calc(100vh-60px)] 
+      sm:h-[calc(100vh-76px)] w-full overflow-hidden'
+    >
       {aggInfo ? (
         <div className='w-full h-[100px] bg-neutral-500/10 p-3 sm:p-5 
           text-gray-300 rounded flex flex-col justify-between'

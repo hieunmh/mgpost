@@ -5,9 +5,6 @@ import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import CreateParcel from './CreateParcel';
-import { useSessionContext } from '@supabase/auth-helpers-react';
-import axios from 'axios';
-import { useUser } from '@/hooks/useUser';
 import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
 
@@ -38,7 +35,7 @@ export default function Parcel() {
       transition={{ duration: 0.5 }} exit={{ opacity: 0, y: 50 }}
       className='w-full h-[calc(100vh-184px)] sm:h-[calc(100vh-216px)] rounded bg-neutral-500/10 p-3 sm:p-5'
     >
-      <div className='w-full h-full rounded text-gray-300 flex flex-col space-y-8'>
+      <div className='w-full h-full rounded text-gray-300 flex flex-col space-y-5'>
         <div className='flex justify-between items-center text-center'>
           <p className='font-extrabold text-base sm:text-3xl'>Warehouse</p>
           <button className='flex font-medium items-center justify-center 
@@ -134,7 +131,7 @@ export default function Parcel() {
           )}
         </div>
 
-        <div className='w-full h-[50px] flex items-center justify-center'>
+        <div className='w-full h-fit flex items-center justify-center'>
           <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
             <button onClick={() => { 
               if (page == 1) setPage(1);

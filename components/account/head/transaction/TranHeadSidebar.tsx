@@ -3,17 +3,16 @@ import Link from 'next/link';
 import React from 'react';
 
 import { GoHomeFill } from 'react-icons/go';
-import { BiSolidPackage } from 'react-icons/bi';
-import { HiViewGrid } from 'react-icons/hi';
-import { TbPackageExport } from 'react-icons/tb';
+import { FaChartPie } from 'react-icons/fa6';
+import { FaUsers } from 'react-icons/fa';
 
-import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
+import { useTranHead } from '@/hooks/menuhead/useTranHead';
 
 export default function TranStaffSidebar({}) {
 
   const { userInfo } = useUser();
 
-  const { menu, setMenu } = useTransactionStaff();
+  const { menu, setMenu } = useTranHead();
 
   return (
     <div className='w-[70px] lg:w-[30vw] lg:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between'>
@@ -33,28 +32,21 @@ export default function TranStaffSidebar({}) {
           </p>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'warehouse' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('warehouse')}
+            text-lg text-gray-300 ${menu == 'statistical' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('statistical')}
           >
-            <BiSolidPackage size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Warehouse</p>
+            <FaChartPie size={30} />
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Statistical</p>
           </button>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'iscoming' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('iscoming')}
+            text-lg text-gray-300 ${menu == 'manager' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('manager')}
           >
-            <TbPackageExport size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Is coming</p>
+            <FaUsers size={30} />
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Manager</p>
           </button>
 
-          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
-            text-lg text-gray-300 ${menu == 'delivered' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
-            onClick={() => setMenu('delivered')}
-          >
-            <TbPackageExport size={30} />
-            <p className='hidden lg:block font-semibold text-sm md:text-base'>Delivered</p>
-          </button>
         </div>
       </div>
 

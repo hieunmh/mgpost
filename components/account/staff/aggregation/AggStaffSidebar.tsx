@@ -6,7 +6,7 @@ import { GoHomeFill } from 'react-icons/go';
 import { HiViewGrid } from 'react-icons/hi';
 import { LuPackageCheck, LuPackageOpen } from 'react-icons/lu';
 
-import { useAggStaff } from '@/hooks/staff/useAggStaff';
+import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 
 import axios from 'axios';
