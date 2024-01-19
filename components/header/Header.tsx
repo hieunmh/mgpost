@@ -99,6 +99,18 @@ export default function Header() {
                 {userInfo?.email} 
               </div>
             </button>
+
+            {/* <button onClick={() => router.push('/account')} 
+              className='bg-gray-200 rounded-full flex items-center justify-center px-2 space-x-2'
+            >
+              <div className='font-semibold rounded h-[36px] w-[100px] truncate flex items-center justify-center'>
+                {userInfo?.email} 
+              </div>
+
+              <div className='rounded-full bg-[#242424] text-gray-200'>
+                <FaUser size={10} className='m-1.5' />
+              </div>
+            </button> */}
           </div>
         )}
       </div>
