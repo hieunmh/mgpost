@@ -125,8 +125,6 @@ export default function Parcel() {
                 </div>
                 
               ))}
-
-
             </>
           )}
         </div>

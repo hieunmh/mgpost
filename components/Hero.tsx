@@ -11,7 +11,7 @@ export default function Hero() {
       <div className='flex flex-1 flex-col items-center gap-4 text-center'>
         <div className='space-y-4'>
           <h1 className='text-xl font-bold lg:text-5xl text-gray-300'>
-            Home delivery service
+            Door to door delivery service
           </h1>
           <h2 className='text-lg lg:text-3xl text-neutral-500/90'>
             Super cheap shipping - super fast delivering

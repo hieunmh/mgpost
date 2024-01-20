@@ -8,6 +8,7 @@ import { HiViewGrid } from 'react-icons/hi';
 import { TbPackageExport } from 'react-icons/tb';
 
 import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
+import { LuPackageCheck } from 'react-icons/lu';
 
 export default function TranStaffSidebar({}) {
 
@@ -52,7 +53,7 @@ export default function TranStaffSidebar({}) {
             text-lg text-gray-300 ${menu == 'delivered' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
             onClick={() => setMenu('delivered')}
           >
-            <TbPackageExport size={30} />
+            <LuPackageCheck size={30} />
             <p className='hidden lg:block font-semibold text-sm md:text-base'>Delivered</p>
           </button>
         </div>

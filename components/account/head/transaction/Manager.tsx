@@ -24,22 +24,7 @@ export default function Manager() {
 
   const { supabaseClient } = useSessionContext();
 
-  const [accountDetail, setAccountDetail] = 
-  useState<UserInfoType & { transaction: TransactionType }>();
-
-
-  useEffect(() => {
-    const getAllTranStaff = async () => {
-      const res = (await axios.get(`api/transaction/getAllTranStaff?userID=${userInfo?.id}`)).data;
-      setAllTranStaff(res.data);
-      res.data.length / perPage === Math.floor(res.data.length / perPage) ?
-      setNumberPage(res.data.length / perPage) : setNumberPage(Math.floor(res.data.length / perPage) + 1);
-    }
-
-    if (allTranStaff.length === 0) {
-      getAllTranStaff();
-    }
-  }, []);
+  const [accountDetail, setAccountDetail] = useState<UserInfoType & { transaction: TransactionType }>();
 
   useEffect(() => {
     const fetchAllTranStaff = async () => {

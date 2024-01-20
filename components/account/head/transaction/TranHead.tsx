@@ -7,6 +7,10 @@ import { useTransactionInfo } from '@/hooks/useTransactionInfo';
 import { useTranHead } from '@/hooks/menuhead/useTranHead';
 import Statistical from './Statistical';
 import Manager from './Manager';
+import { useAllTranStaff } from '@/hooks/manager/tran/userAllTranStaff';
+import { useAllTranStaffPage } from '@/hooks/manager/tran/useAllTranStaffPage';
+import { usePage } from '@/hooks/parcel/useTranPage';
+import { useStatisticalPage } from '@/hooks/manager/tran/useStatisticalPage';
 
 
 export default function TranStaff() {
@@ -16,6 +20,10 @@ export default function TranStaff() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { transactionInfo, setTransactionInfo } = useTransactionInfo();
+  const { allTranStaff, setAllTranStaff } = useAllTranStaff();
+  const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useAllTranStaffPage();
+
+  const useTranStatistical= useStatisticalPage();
 
   const { supabaseClient } = useSessionContext();
 
@@ -30,6 +38,9 @@ export default function TranStaff() {
         async (payload: any) => {
           const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
           setAllParcel(res.data.data);
+          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+          useTranStatistical.setNumberPage(res.data.data.length / perPage) 
+          : useTranStatistical.setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
         }
       ).subscribe()
 
@@ -43,6 +54,9 @@ export default function TranStaff() {
     const getAllParcel = async () => {
       const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
       setAllParcel(res.data.data);
+      res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+        useTranStatistical.setNumberPage(res.data.data.length / perPage) 
+        : useTranStatistical.setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
     }
 
     if (allParcel.length == 0) {
@@ -59,6 +73,19 @@ export default function TranStaff() {
 
     if (!transactionInfo) {
       getTranInfo();
+    }
+  }, []);
+
+  useEffect(() => {
+    const getAllTranStaff = async () => {
+      const res = (await axios.get(`api/transaction/getAllTranStaff?userID=${userInfo?.id}`)).data;
+      setAllTranStaff(res.data);
+      res.data.length / perPage === Math.floor(res.data.length / perPage) ?
+      setNumberPage(res.data.length / perPage) : setNumberPage(Math.floor(res.data.length / perPage) + 1);
+    }
+
+    if (allTranStaff.length === 0) {
+      getAllTranStaff();
     }
   }, []);
 
