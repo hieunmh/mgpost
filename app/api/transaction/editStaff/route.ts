@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
   );
 
   const formData = await request.json();
+
+  const userID = formData.userID as string;
   const email = formData.email as string;
   const password = formData.password as string;
 
@@ -24,27 +26,14 @@ export async function POST(request: NextRequest) {
   const name = formData.name as string;
 
   const supabase = createRouteHandlerClient<Database>({ cookies });
-
-  const newAccount = await supabaseAdmin.auth.admin.createUser({
+  
+  const edit = await supabaseAdmin.auth.admin.updateUserById(userID, {
     email: email,
-    phone: phone,
     password: password,
+    phone: phone,
     email_confirm: true,
   });
 
-  await supabase.from('users').insert({
-    id: newAccount.data.user?.id as string,
-    email: newAccount.data.user?.email,
-    role: 'transaction staff',
-    phone: newAccount.data.user?.phone,
-    name: name,
-  })
-
-  await supabase.from('transaction').insert({
-    user_id: newAccount.data.user?.id,
-    address: address,
-  })
-
-  return NextResponse.json({ data: newAccount.data, error: newAccount.error });
+  
 
 }

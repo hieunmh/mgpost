@@ -61,57 +61,59 @@ export default function Delivered() {
               No parcel found!
             </div>
           ) : (
-            <>
-              {allParcel.filter(parcel => parcel.status === 'Delivering' || parcel.status === 'Delivered')
-                ?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
-                <div key={index} className={`w-full cursor-pointer py-3 flex justify-between font-medium tracking-[1px] 
-                  text-xs lg:text-sm ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
-                >
-              
-                    <div className='w-[40px] text-center flex items-center justify-center'>
-                      {index + 1 + perPage * (page - 1)}
-                    </div>
+            <div className='w-full h-full flex flex-col justify-between'>
+              <div>
+                {allParcel.filter(parcel => parcel.status === 'Delivering' || parcel.status === 'Delivered')
+                  ?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
+                  <div key={index} className={`w-full cursor-pointer py-3 flex justify-between font-medium tracking-[1px] 
+                    text-xs lg:text-sm ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
+                  >
+                
+                      <div className='w-[40px] text-center flex items-center justify-center'>
+                        {index + 1 + perPage * (page - 1)}
+                      </div>
 
-                    <div className='w-[calc(100%-130px)] grid grid-cols-12'>
-                      <p className='flex items-center justify-center text-center col-span-12 sm:col-span-6 md:col-span-3'>
-                        {parcel.code}
-                      </p>
+                      <div className='w-[calc(100%-130px)] grid grid-cols-12'>
+                        <p className='flex items-center justify-center text-center col-span-12 sm:col-span-6 md:col-span-3'>
+                          {parcel.code}
+                        </p>
+          
+                        <p className='md:flex hidden items-center justify-center text-center col-span-3'>
+                          {parcel.packageDetails?.sender_address?.split('-').pop()}
+                        </p>
+
+                        <p className='md:flex hidden items-center justify-center text-center col-span-3'>
+                          {parcel.packageDetails?.receiver_address?.split('-').pop()}
+                        </p>
         
-                      <p className='md:flex hidden items-center justify-center text-center col-span-3'>
-                        {parcel.packageDetails?.sender_address?.split('-').pop()}
-                      </p>
-
-                      <p className='md:flex hidden items-center justify-center text-center col-span-3'>
-                        {parcel.packageDetails?.receiver_address?.split('-').pop()}
-                      </p>
+                        <p className='sm:flex hidden items-center justify-center text-center col-span-6 md:col-span-3'>
+                          {String(new Date(parcel.created_at).getDate()).padStart(2, '0')}
+                          /{String(new Date(parcel.created_at).getMonth() + 1).padStart(2, '0')}
+                          /{String(new Date(parcel.created_at).getFullYear())}
+                        </p>
+                      </div>
       
-                      <p className='sm:flex hidden items-center justify-center text-center col-span-6 md:col-span-3'>
-                        {String(new Date(parcel.created_at).getDate()).padStart(2, '0')}
-                        /{String(new Date(parcel.created_at).getMonth() + 1).padStart(2, '0')}
-                        /{String(new Date(parcel.created_at).getFullYear())}
-                      </p>
-                    </div>
-    
-                    <div className='w-[90px] space-x-1 flex items-center justify-center'>
-                      <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
-                        onClick={() => {
-                          setParcelDetail(parcel)
-                          setIsOpenDetail(true);
-                        }}
-                      >
-                        <FaEye size={15} />
-                      </button>
+                      <div className='w-[90px] space-x-1 flex items-center justify-center'>
+                        <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
+                          onClick={() => {
+                            setParcelDetail(parcel)
+                            setIsOpenDetail(true);
+                          }}
+                        >
+                          <FaEye size={15} />
+                        </button>
 
-                      <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
-                        onClick={() => {
-                          
-                        }}
-                      >
-                        <BsFillSendFill size={15} />
-                      </button>
-                    </div>
-                </div>
-              ))}
+                        <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
+                          onClick={() => {
+                            
+                          }}
+                        >
+                          <BsFillSendFill size={15} />
+                        </button>
+                      </div>
+                  </div>
+                ))}
+              </div>
               <div className='w-full h-fit flex items-center justify-center'>
                 <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
                   <button onClick={() => { 
@@ -137,7 +139,7 @@ export default function Delivered() {
                   </button>
                 </div>
               </div>
-            </>
+            </div>
           )}
         </div>
 

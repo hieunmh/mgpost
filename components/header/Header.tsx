@@ -36,6 +36,7 @@ export default function Header() {
     } else {
       router.push('/');
       router.refresh();
+      location.reload();
       toast.success('Logged out!');
     }
 

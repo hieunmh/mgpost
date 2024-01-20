@@ -69,6 +69,7 @@ export default function Login() {
     }
 
     router.refresh();
+    location.reload();
 
     setIsLoading(false);
   }
