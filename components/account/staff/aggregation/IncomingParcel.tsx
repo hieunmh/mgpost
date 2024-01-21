@@ -11,6 +11,9 @@ import { BsFillSendFill } from 'react-icons/bs';
 
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import ParcelDetail from './ParcelDetail';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { LuDownload } from 'react-icons/lu';
 
 export default function IncomingParcel() {
 
@@ -20,6 +23,30 @@ export default function IncomingParcel() {
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
+
+  let [loading, setLoading] = useState<boolean>(false);
+
+  const confirmHasCome = async (location: string, parcelCode: string) => {
+    setLoading(true);
+    const res = await axios.post('/api/parcel/confirm', {
+      current_location: location,
+      parcelCode: parcelCode,
+    });
+
+    console.log(res.data.data);
+
+    setLoading(false);
+
+    if (res.data.error) {
+      toast.error('Fail!');
+      return;
+    } else {
+      toast.success('Confirmed has come!');
+      setTimeout(() => {
+        setIsOpenDetail(false);
+      }, 1000);
+    }
+  }
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -97,12 +124,20 @@ export default function IncomingParcel() {
                       </button>
 
                       <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
-                        onClick={() => {
-                          
-                        }}
-                      >
-                        <BsFillSendFill size={15} />
-                      </button>
+                          onClick={() => {
+                            confirmHasCome(parcel.current_location!, parcel.code!);
+                          }}
+                        > 
+                          {loading ? (
+                            <div className='h-[15px]'>
+                              <svg viewBox="0 0 100 100" className='loading h-full stroke-[#f2f2f2]'>
+                                <circle cx="50" cy="50" r="40"  />
+                              </svg>
+                            </div>
+                          ) : (
+                            <LuDownload size={15} />
+                          )}
+                        </button>
                     </div>
                 </div>
               ))}

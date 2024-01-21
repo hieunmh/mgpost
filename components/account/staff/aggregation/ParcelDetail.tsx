@@ -18,27 +18,6 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
   const { setIsOpenDetail } = useAggParcelDetail();
 
-  const confirmHasCome = async () => {
-    setLoading(true);
-    const res = await axios.post('/api/parcel/confirm', {
-      current_location: parcelDetail.current_location,
-      parcelCode: parcelDetail.code
-    });
-
-    console.log(res.data.data);
-
-    setLoading(false);
-
-    if (res.data.error) {
-      toast.error('Fail!');
-      return;
-    } else {
-      toast.success('Confirmed!');
-      setTimeout(() => {
-        setIsOpenDetail(false);
-      }, 1000);
-    }
-  }
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
@@ -152,28 +131,6 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
               
             </div>
           </div>
-
-          {parcelDetail.status == 'Is coming' && (
-            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
-              px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
-              onClick={confirmHasCome}
-            >
-              {loading ? (
-                <div className='h-[24px] w-full items-center flex justify-center'>
-                  <svg viewBox="0 0 100 100" className='loading h-full stroke-gray-200'>
-                    <circle cx="50" cy="50" r="40"  />
-                  </svg>
-                </div>
-              ) : (
-                <div className='h-[24px] w-full text-center flex items-center justify-center'>
-                  <div className='flex items-center justify-center space-x-2'>
-                    <FaCheck size={20} />
-                    <p>Confirm has come</p>
-                  </div>
-                </div>
-              )}
-            </button>
-          )}
         </div>
       </motion.div>
     </div>
