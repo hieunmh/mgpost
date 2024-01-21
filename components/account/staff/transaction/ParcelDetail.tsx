@@ -41,7 +41,7 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
   const confirmHasCome = async () => {
     setLoading(true);
-    const res = await axios.post('/api/parcel/conFirm', {
+    const res = await axios.post('/api/parcel/confirm', {
       current_location: parcelDetail.current_location,
       parcelCode: parcelDetail.code
     });

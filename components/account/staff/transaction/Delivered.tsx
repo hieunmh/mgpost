@@ -56,7 +56,7 @@ export default function Delivered() {
             </div>
           </div>
 
-          {allParcel.filter(parcel => parcel.status === 'Delivering' || parcel.status === 'Delivered').length === 0 ? (
+          {allParcel.filter(parcel => parcel.status === 'Delivered').length === 0 ? (
             <div className='flex items-center font-bold text-2xl md:text-4xl mt-5 justify-center'>
               No parcel found!
             </div>

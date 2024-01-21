@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
-import axios from 'axios';
 import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
 import { usePage } from '@/hooks/parcel/useTranPage';
 
@@ -12,10 +11,11 @@ import { FaEye } from 'react-icons/fa';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
+import { TbTruckDelivery } from 'react-icons/tb';
+import axios from 'axios';
 import toast from 'react-hot-toast';
-import { LuDownload } from 'react-icons/lu';
 
-export default function IncomingParcel() {
+export default function Delivering() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
@@ -27,25 +27,19 @@ export default function IncomingParcel() {
 
   let [loading, setLoading] = useState<boolean>(false);
 
-  const confirmHasCome = async (location: string, parcelCode: string) => {
+  const sentToCustomer = async (parcelCode: string) => {
     setLoading(true);
-    const res = await axios.post('/api/parcel/confirm', {
-      current_location: location,
+
+    const res = await axios.post('api/parcel/confirmSentToCustomer', {
       parcelCode: parcelCode,
     });
-
-    console.log(res.data.data);
 
     setLoading(false);
 
     if (res.data.error) {
       toast.error('Fail!');
-      return;
     } else {
-      toast.success('Confirmed has come!');
-      setTimeout(() => {
-        setIsOpenDetail(false);
-      }, 1000);
+      toast.success('Delivered!');
     }
   }
 
@@ -56,7 +50,7 @@ export default function IncomingParcel() {
     >
       <div className='w-full h-full rounded text-gray-300 flex flex-col space-y-5'>
         <div className='flex justify-between items-center text-center'>
-          <p className='font-extrabold text-base sm:text-3xl'>Is coming</p>
+          <p className='font-extrabold text-base sm:text-3xl'>Delivering</p>
         </div>
 
         <div className='w-full h-full flex flex-col'>
@@ -78,14 +72,14 @@ export default function IncomingParcel() {
             </div>
           </div>
 
-          {allParcel.filter(parcel => parcel.status == 'Is coming').length === 0 ? (
+          {allParcel.filter(parcel => parcel.status === 'Delivering').length === 0 ? (
             <div className='flex items-center font-bold text-2xl md:text-4xl mt-5 justify-center'>
               No parcel found!
             </div>
           ) : (
-            <div className='flex flex-col w-full h-full justify-between'>
-              <div className='w-full'>
-                {allParcel.filter(parcel => parcel.status === 'Is coming')
+            <div className='w-full h-full flex flex-col justify-between'>
+              <div>
+                {allParcel.filter(parcel => parcel.status === 'Delivering')
                   ?.slice((perPage * (page - 1)), perPage * page).map((parcel, index) => (
                   <div key={index} className={`w-full cursor-pointer py-3 flex justify-between font-medium tracking-[1px] 
                     text-xs lg:text-sm ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
@@ -127,7 +121,7 @@ export default function IncomingParcel() {
 
                         <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
                           onClick={() => {
-                            confirmHasCome(parcel.current_location!, parcel.code!);
+                            sentToCustomer(parcel.code!)
                           }}
                         > 
                           {loading ? (
@@ -137,14 +131,14 @@ export default function IncomingParcel() {
                               </svg>
                             </div>
                           ) : (
-                            <LuDownload size={15} />
+                            <TbTruckDelivery size={15} />
                           )}
+                          
                         </button>
                       </div>
                   </div>
                 ))}
               </div>
-
               <div className='w-full h-fit flex items-center justify-center'>
                 <div className='text-gray-200 font-semibold md:text-xl flex justify-center items-center space-x-5'>
                   <button onClick={() => { 
@@ -173,6 +167,8 @@ export default function IncomingParcel() {
             </div>
           )}
         </div>
+
+        
       </div>
 
       {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}

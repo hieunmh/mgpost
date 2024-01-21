@@ -3,12 +3,10 @@ import Link from 'next/link';
 import React from 'react';
 
 import { GoHomeFill } from 'react-icons/go';
-import { BiSolidPackage } from 'react-icons/bi';
-import { HiViewGrid } from 'react-icons/hi';
-import { TbPackageExport } from 'react-icons/tb';
+import { TbPackageExport, TbPackageImport } from 'react-icons/tb';
 
 import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
-import { LuPackageCheck } from 'react-icons/lu';
+import { LuPackageCheck, LuPackageOpen } from 'react-icons/lu';
 
 export default function TranStaffSidebar({}) {
 
@@ -37,7 +35,7 @@ export default function TranStaffSidebar({}) {
             text-lg text-gray-300 ${menu == 'warehouse' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
             onClick={() => setMenu('warehouse')}
           >
-            <BiSolidPackage size={30} />
+            <LuPackageOpen size={30} />
             <p className='hidden lg:block font-semibold text-sm md:text-base'>Warehouse</p>
           </button>
 
@@ -45,8 +43,16 @@ export default function TranStaffSidebar({}) {
             text-lg text-gray-300 ${menu == 'iscoming' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
             onClick={() => setMenu('iscoming')}
           >
-            <TbPackageExport size={30} />
+            <TbPackageImport size={30} />
             <p className='hidden lg:block font-semibold text-sm md:text-base'>Is coming</p>
+          </button>
+
+          <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition
+            text-lg text-gray-300 ${menu == 'delivering' ? 'bg-[#5c9ead] duration-500' : 'bg-neutral-500/20 duration-0'}`}
+            onClick={() => setMenu('delivering')}
+          >
+            <TbPackageExport size={30} />
+            <p className='hidden lg:block font-semibold text-sm md:text-base'>Delivering</p>
           </button>
 
           <button className={`w-full rounded py-2 flex space-x-2 items-center justify-center transition

@@ -36,7 +36,6 @@ export default function Header() {
     } else {
       router.push('/');
       router.refresh();
-      location.reload();
       toast.success('Logged out!');
     }
 
@@ -54,7 +53,7 @@ export default function Header() {
       <div className=''>
         <Link href={'/'}>
           <Image src={'/mgpostwhite.png'} alt='logo' width={1000} height={1000} 
-            className={`w-[100px] ${pathname === '/account' ? 'hidden' : 'block'}`} 
+            className={`w-[100px] h-8 ${pathname === '/account' ? 'hidden' : 'block'}`} 
           />
         </Link>
       </div>

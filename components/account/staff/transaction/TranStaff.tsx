@@ -8,6 +8,7 @@ import { useUser } from '@/hooks/useUser';
 import { usePage } from '@/hooks/parcel/useTranPage';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import Delivered from './Delivered';
+import Delivering from './Delivering';
 import { useTransactionInfo } from '@/hooks/useTransactionInfo';
 
 
@@ -94,6 +95,7 @@ export default function TranStaff() {
       {menu === 'warehouse' && <Parcel />}
       {menu === 'iscoming' && <IncomingParcel />}
       {menu === 'delivered' && <Delivered />}
+      {menu === 'delivering' && <Delivering />}
     </div>
   )
 }
