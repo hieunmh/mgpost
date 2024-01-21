@@ -5,30 +5,16 @@ import { LuPackagePlus } from 'react-icons/lu';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import CreateParcel from './CreateParcel';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { FaEye } from 'react-icons/fa';
-import { BsFillSendFill } from 'react-icons/bs';
-
-import ParcelDetail from './ParcelDetail';
-import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
-import NextAddress from './NextAddress';
-import { useTranNextAddress } from '@/hooks/parcel/useTranNextAddress';
+import ParcelCom from './ParcelCom';
 
 export default function Parcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
-  const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
-  const { isOpenNextAddress, setIsOpenNextAddress } = useTranNextAddress();
-
-
-  const [parcelDetail, setParcelDetail] = useState<
-  PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();
-
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 
@@ -77,53 +63,8 @@ export default function Parcel() {
                 <div key={index} className={`w-full cursor-pointer py-3 flex justify-between font-medium tracking-[1px] 
                   text-xs lg:text-sm ${index % 2 == 0 ? 'bg-neutral-500/30' : 'bg-neutral-500/10'}`} 
                 >
-              
-                    <div className='w-[40px] text-center flex items-center justify-center'>
-                      {index + 1 + perPage * (page - 1)}
-                    </div>
-
-                    <div className='w-[calc(100%-130px)] grid grid-cols-12'>
-                      <p className='flex items-center justify-center text-center col-span-12 sm:col-span-6 md:col-span-3'>
-                        {parcel.code}
-                      </p>
-        
-                      <p className='md:flex hidden items-center justify-center text-center col-span-3'>
-                        {parcel.packageDetails?.sender_address?.split('-').pop()}
-                      </p>
-
-                      <p className='md:flex hidden items-center justify-center text-center col-span-3'>
-                        {parcel.packageDetails?.receiver_address?.split('-').pop()}
-                      </p>
-      
-                      <p className='sm:flex hidden items-center justify-center text-center col-span-6 md:col-span-3'>
-                        {String(new Date(parcel.created_at).getDate()).padStart(2, '0')}
-                        /{String(new Date(parcel.created_at).getMonth() + 1).padStart(2, '0')}
-                        /{String(new Date(parcel.created_at).getFullYear())}
-                      </p>
-                    </div>
-    
-                    <div className='w-[90px] space-x-1 flex items-center justify-center'>
-                      <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
-                        onClick={() => {
-                          setParcelDetail(parcel);
-                          setIsOpenDetail(true);
-                        }}
-                      >
-                        <FaEye size={15} />
-                      </button>
-
-                      <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
-                        onClick={() => {
-                          setParcelDetail(parcel);
-                          setIsOpenNextAddress(true);
-                        }}
-                      >
-                        <BsFillSendFill size={15} />
-                      </button>
-                    </div>
-                    
+                  <ParcelCom parcel={parcel} index={index} />
                 </div>
-                
               ))}
             </>
           )}
@@ -157,8 +98,6 @@ export default function Parcel() {
       </div>
 
       {isOpen && <CreateParcel />}
-      {isOpenDetail && <ParcelDetail parcelDetail={parcelDetail!} />}
-      {isOpenNextAddress && <NextAddress parcelDetail={parcelDetail!} />}
     </motion.div>
   )
 }

@@ -9,7 +9,7 @@ import Statistical from './Statistical';
 import Manager from './Manager';
 import { useAllTranStaff } from '@/hooks/manager/tran/userAllTranStaff';
 import { useAllTranStaffPage } from '@/hooks/manager/tran/useAllTranStaffPage';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 import { useStatisticalPage } from '@/hooks/manager/tran/useStatisticalPage';
 
 

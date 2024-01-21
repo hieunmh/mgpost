@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
+import { useTranParcelDetail } from '@/hooks/parcel/tran/useTranParcelDetail';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import Image from 'next/image';
@@ -159,20 +159,20 @@ export default function ParcelDetail({ parcelDetail } : { parcelDetail: ParcelDe
 
                 <div className='w-full flex h-fit'>
                   <p className='w-full flex items-center py-3'>4. Weight:</p>
-                  <p className='w-full flex items-center py-3'>{parcelDetail.packageDetails.totalWeight} g</p>
+                  <p className='w-full flex items-center py-3'>{parcelDetail?.packageDetails.totalWeight} g</p>
                 </div>
 
                 <div className='w-full flex h-fit rounded-b-md'>
                   <p className='w-full flex items-center py-3'>5. Total Fee:</p>
                   <p className='w-full flex items-center py-3'>
-                    {parcelDetail.packageDetails.totalCharge?.toLocaleString()} VND
+                    {parcelDetail?.packageDetails.totalCharge?.toLocaleString()} VND
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {parcelDetail.status === 'Is coming' && (
+          {parcelDetail?.status === 'Is coming' && (
            <button className='w-full bg-[#5c9ead] hover:bg-[#5c9ead]/85 
             px-4 py-2 rounded-md text-gray-200 text-sm lg:text-base flex items-center justify-center'
             onClick={confirmHasCome}

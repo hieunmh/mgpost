@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useAggNextAddress } from '@/hooks/parcel/useAggNextAddress';
+import { useAggNextAddress } from '@/hooks/parcel/agg/useAggNextAddress';
 import { IoClose } from 'react-icons/io5';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import { useAllAgg } from '@/hooks/useAllAgg';

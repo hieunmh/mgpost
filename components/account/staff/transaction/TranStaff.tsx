@@ -5,11 +5,12 @@ import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import IncomingParcel from './IncomingParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import Delivered from './Delivered';
 import Delivering from './Delivering';
 import { useTransactionInfo } from '@/hooks/useTransactionInfo';
+import { useDeliveredPage } from '@/hooks/parcel/tran/useDeliveredPage';
 
 
 export default function TranStaff() {
@@ -20,6 +21,8 @@ export default function TranStaff() {
   const { allParcel, setAllParcel } = useAllParcel();
   const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
   const { transactionInfo, setTransactionInfo } = useTransactionInfo();
+
+  const deliveredPage = useDeliveredPage();
 
   const { supabaseClient } = useSessionContext();
 
@@ -33,9 +36,16 @@ export default function TranStaff() {
         }, 
         async (payload: any) => {
           const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
+
           setAllParcel(res.data.data);
+        
           res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
           setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+
+          res.data.data.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage
+          === Math.floor(res.data.data.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) ?
+          deliveredPage.setNumberPage(res.data.data.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) :
+          deliveredPage.setNumberPage(Math.floor(res.data.data.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) + 1)
         }
       ).subscribe()
 
@@ -49,8 +59,19 @@ export default function TranStaff() {
     const getAllParcel = async () => {
       const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
       setAllParcel(res.data.data);
-      res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
-      setNumberPage(res.data.data.length / perPage) : setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+
+      console.log(res.data.data.filter((parcel: any) => parcel.status === 'In warehouse').length);
+      
+
+      res.data.data?.filter((parcel: any) => parcel.status === 'In warehouse').length / perPage 
+      === Math.floor(res.data.data?.filter((parcel: any) => parcel.status === 'In warehouse').length / perPage) ?
+      setNumberPage(res.data.data?.filter((parcel: any) => parcel.status === 'In warehouse').length / perPage) : 
+      setNumberPage(Math.floor(res.data.data?.filter((parcel: any) => parcel.status === 'In warehouse').length / perPage) + 1);
+
+      res.data.data.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage
+      === Math.floor(res.data.data?.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) ?
+      deliveredPage.setNumberPage(res.data.data?.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) :
+      deliveredPage.setNumberPage(Math.floor(res.data.data?.filter((parcel: any) => parcel.status === 'Delivered').length / deliveredPage.perPage) + 1)
     }
 
     if (allParcel.length == 0) {

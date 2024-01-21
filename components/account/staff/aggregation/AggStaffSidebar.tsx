@@ -11,7 +11,7 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 
 import axios from 'axios';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 export default function TranStaffSidebar({}) {
 

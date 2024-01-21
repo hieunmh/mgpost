@@ -2,24 +2,23 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
-import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { useAggParcelDetail } from '@/hooks/parcel/agg/useAggParcelDetail';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
-import { BsFillSendFill } from 'react-icons/bs';
 
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import ParcelDetail from './ParcelDetail';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { LuDownload } from 'react-icons/lu';
+import { useAggPage } from '@/hooks/parcel/agg/useAggPage';
 
 export default function IncomingParcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useAggPage();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();

@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 
-import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { useAggParcelDetail } from '@/hooks/parcel/agg/useAggParcelDetail';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
@@ -12,7 +12,7 @@ import { BsFillSendFill } from 'react-icons/bs';
 
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import ParcelDetail from './ParcelDetail';
-import { useAggNextAddress } from '@/hooks/parcel/useAggNextAddress';
+import { useAggNextAddress } from '@/hooks/parcel/agg/useAggNextAddress';
 import NextAddress from './NextAddress';
 
 

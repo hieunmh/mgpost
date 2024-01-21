@@ -3,12 +3,8 @@ import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
-import CreateParcel from './CreateParcel';
-import { useSessionContext } from '@supabase/auth-helpers-react';
-import axios from 'axios';
-import { useUser } from '@/hooks/useUser';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import CreateParcel from './CreateParcel';;
+import { useTranParcelDetail } from '@/hooks/parcel/tran/useTranParcelDetail';
 
 import { FaEye } from 'react-icons/fa';
 import { BsFillSendFill } from 'react-icons/bs';
@@ -16,13 +12,13 @@ import { BsFillSendFill } from 'react-icons/bs';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
+import { useDeliveredPage } from '@/hooks/parcel/tran/useDeliveredPage';
 
 export default function Delivered() {
 
   const { allParcel, setAllParcel } = useAllParcel();
-  const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useDeliveredPage();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();

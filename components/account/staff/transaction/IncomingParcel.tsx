@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import axios from 'axios';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { useTranParcelDetail } from '@/hooks/parcel/tran/useTranParcelDetail';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 import { FaEye } from 'react-icons/fa';
 
@@ -14,13 +14,14 @@ import ParcelDetail from './ParcelDetail';
 import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type';
 import toast from 'react-hot-toast';
 import { LuDownload } from 'react-icons/lu';
+import { useIsComingPage } from '@/hooks/parcel/tran/useIsComingPage';
 
 export default function IncomingParcel() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useIsComingPage();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();

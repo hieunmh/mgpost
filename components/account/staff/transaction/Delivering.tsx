@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
-import { useTranParcelDetail } from '@/hooks/parcel/useTranParcelDetail';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { useTranParcelDetail } from '@/hooks/parcel/tran/useTranParcelDetail';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 import { FaEye } from 'react-icons/fa';
 
@@ -14,13 +14,14 @@ import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type
 import { TbTruckDelivery } from 'react-icons/tb';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useDeliveringPage } from '@/hooks/parcel/tran/useDeliveringPage';
 
 export default function Delivering() {
 
   const { allParcel, setAllParcel } = useAllParcel();
   const { isOpen, setIsOpen } = useCreateParcel();
   const { isOpenDetail, setIsOpenDetail } = useTranParcelDetail();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useDeliveringPage();
 
   const [parcelDetail, setParcelDetail] = useState<
   PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]}>();

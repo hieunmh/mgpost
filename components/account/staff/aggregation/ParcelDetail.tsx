@@ -6,7 +6,7 @@ import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type
 import Image from 'next/image';
 import { FaBarcode, FaCheck } from 'react-icons/fa6';
 import axios from 'axios';
-import { useAggParcelDetail } from '@/hooks/parcel/useAggParcelDetail';
+import { useAggParcelDetail } from '@/hooks/parcel/agg/useAggParcelDetail';
 import toast from 'react-hot-toast';
 
 

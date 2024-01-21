@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useAllParcel } from '@/hooks/parcel/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { usePage } from '@/hooks/parcel/useTranPage';
+import { usePage } from '@/hooks/parcel/tran/useTranPage';
 import Parcel from './Parcel';
 import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import IncomingParcel from './IncomingParcel';
