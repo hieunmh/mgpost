@@ -27,7 +27,7 @@ export default function IncomingParcel() {
 
   const confirmHasCome = async (location: string, parcelCode: string) => {
     setLoading(true);
-    const res = await axios.post('/api/parcel/confirm', {
+    const res = await axios.post('api/parcel/confirmHasCome', {
       current_location: location,
       parcelCode: parcelCode,
     });

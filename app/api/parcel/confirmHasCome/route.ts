@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   .eq('current_location', current_location)
   .eq('code', parcelCode);
 
-  const updatePackageStatus = await supabase.from('packageStatus').update({ 
+  await supabase.from('packageStatus').update({ 
     status: 'In warehouse'
   })
   .eq('current_location', current_location)
