@@ -13,10 +13,12 @@ import TranHead from '@/components/account/head/transaction/TranHead';
 
 import AggHeadSidebar from '@/components/account/head/aggregation/AggHeadSidebar';
 
+import CeoSidebar from '@/components/account/ceo/CeoSidebar';
 
 import { useUser } from '@/hooks/useUser';
 import React from 'react';
 import AggHead from '@/components/account/head/aggregation/AggHead';
+import Ceo from '@/components/account/ceo/Ceo';
 
 export default function Account() {
 
@@ -30,6 +32,8 @@ export default function Account() {
 
         {userInfo?.role === 'transaction head' && <TranHeadSidebar />}
         {userInfo?.role === 'aggregation head' && <AggHeadSidebar />}
+
+        {userInfo?.role === 'ceo' && <CeoSidebar />}
       </div>
 
       <div className='w-full flex flex-col'>
@@ -39,6 +43,8 @@ export default function Account() {
 
         {userInfo?.role === 'transaction head' && <TranHead />}
         {userInfo?.role === 'aggregation head' && <AggHead />}
+
+        {userInfo?.role === 'ceo' && <Ceo />}
       </div>
     </div>
   )

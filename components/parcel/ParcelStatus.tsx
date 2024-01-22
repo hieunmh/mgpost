@@ -35,7 +35,7 @@ export default function ParcelStatus() {
     if (!formData.parcelCode) return;
 
     setLoading(true);
-    const res = await axios.get(`/api/parcel/parcelStatus?code=${formData.parcelCode}`);
+    const res = await axios.get(`/api/parcel/parcelStatus?code=${formData.parcelCode.toUpperCase()}`);
 
     if (res.data.error) {
       toast.error('Parcel not found!')
