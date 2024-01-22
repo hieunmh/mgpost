@@ -11,9 +11,12 @@ import AggStaff from '@/components/account/staff/aggregation/AggStaff';
 import TranHeadSidebar from '@/components/account/head/transaction/TranHeadSidebar';
 import TranHead from '@/components/account/head/transaction/TranHead';
 
+import AggHeadSidebar from '@/components/account/head/aggregation/AggHeadSidebar';
+
 
 import { useUser } from '@/hooks/useUser';
 import React from 'react';
+import AggHead from '@/components/account/head/aggregation/AggHead';
 
 export default function Account() {
 
@@ -26,6 +29,7 @@ export default function Account() {
         {userInfo?.role === 'aggregation staff' && <AggStaffSidebar />}
 
         {userInfo?.role === 'transaction head' && <TranHeadSidebar />}
+        {userInfo?.role === 'aggregation head' && <AggHeadSidebar />}
       </div>
 
       <div className='w-full flex flex-col'>
@@ -34,7 +38,7 @@ export default function Account() {
         {userInfo?.role?.toLowerCase() == 'aggregation staff' && <AggStaff />}
 
         {userInfo?.role === 'transaction head' && <TranHead />}
-
+        {userInfo?.role === 'aggregation head' && <AggHead />}
       </div>
     </div>
   )

@@ -64,12 +64,12 @@ export default function Login() {
       if (searchparam.get('redirect')) {
         router.push(searchparam.get('redirect') as string);
       } else {
+        router.refresh();
+        location.reload();
         router.push('/');
       }
     }
 
-    router.refresh();
-    location.reload();
 
     setIsLoading(false);
   }

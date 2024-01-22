@@ -86,7 +86,6 @@ export default function Manager() {
             <div className='w-full h-full flex flex-col justify-start items-center'>
               <div className='w-full h-full rounded-b bg-neutral-500/10 animate-pulse'>
               </div>
-              
             </div>
           ) : (
             <div className='flex h-full flex-col justify-between'>

@@ -6,13 +6,13 @@ import { GoHomeFill } from 'react-icons/go';
 import { FaChartPie } from 'react-icons/fa6';
 import { FaUsers } from 'react-icons/fa';
 
-import { useTranHead } from '@/hooks/menuhead/useTranHead';
+import { useAggHead } from '@/hooks/menuhead/useAggHead';
 
-export default function TranHeadSidebar({}) {
+export default function AggHeadSidebar({}) {
 
   const { userInfo } = useUser();
 
-  const { menu, setMenu } = useTranHead();
+  const { menu, setMenu } = useAggHead();
 
   return (
     <div className='w-[70px] lg:w-[30vw] lg:max-w-[250px] h-screen bg-[#363636]/20 flex flex-col justify-between'>
