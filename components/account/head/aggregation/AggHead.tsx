@@ -3,13 +3,27 @@ import { useAggInfo } from '@/hooks/useAggInfo';
 import { useUser } from '@/hooks/useUser';
 import axios from 'axios';
 import React, { useEffect } from 'react'
+import Statistical from './Statistical';
+import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
+import { useSessionContext } from '@supabase/auth-helpers-react';
+import { useAllAggStaffPage } from '@/hooks/manager/agg/useAllAggStaffPage';
+import { useAggStatisticalPage } from '@/hooks/manager/agg/useAggStatisticalPage';
 
 export default function AggHead() {
+
+  const { supabaseClient } = useSessionContext();
 
   const { menu } = useAggHead();
   const { userInfo } = useUser();
   const { aggInfo, setAggInfo } = useAggInfo();
 
+  const { allParcel, setAllParcel } = useAllAggParcel();
+  const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useAllAggStaffPage();
+
+  const useAggStatistical = useAggStatisticalPage();
+
+
+  // get aggregation info
   useEffect(() => {
     const getAggInfo = async () => {
       const res = (await axios.get(`api/aggregation/getAggInfo?userID=${userInfo?.id}`)).data;
@@ -21,6 +35,8 @@ export default function AggHead() {
     }
   }, []);
 
+
+  // get all staff in aggregation
   useEffect(() => {
     const getAllAggStaff = async () => {
       const res = (await axios.get(`api/aggregation/getAllAggStaff?userID=${userInfo?.id}`)).data;
@@ -29,6 +45,47 @@ export default function AggHead() {
     }
 
     getAllAggStaff();
+  }, []);
+
+  
+  // get all parcel in aggregation
+  useEffect(() => {
+    const getAllParcel = async () => {
+      const res = (await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`));
+      setAllParcel(res.data.data);
+      res.data.data.length / useAggStatistical.perPage === Math.floor(res.data.data.length / useAggStatistical.perPage) ?
+      useAggStatistical.setNumberPage(res.data.data.length / perPage) 
+      : useAggStatistical.setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+    }
+
+    if (allParcel.length === 0 ) {
+      getAllParcel();
+    }
+  }, []);
+
+
+  // get all parcel in aggregation realtime
+  useEffect(() => {
+    const fetchAllParcel = async () => {
+      const channel = supabaseClient.channel('realtime parcel')
+      .on('postgres_changes', {
+          event: '*',
+          schema: 'public',
+          table: 'packages',
+        }, 
+        async (payload: any) => {
+          const res = await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`);
+          setAllParcel(res.data.data);
+          res.data.data.length / useAggStatistical.perPage === Math.floor(res.data.data.length / useAggStatistical.perPage) ?
+          useAggStatistical.setNumberPage(res.data.data.length / perPage) 
+          : useAggStatistical.setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
+        }
+      ).subscribe()
+
+      return () => supabaseClient.removeChannel(channel);
+    }
+
+    fetchAllParcel();
   }, []);
 
   return (
@@ -53,8 +110,8 @@ export default function AggHead() {
         </div>
       )}
 
-      {/* {menu === 'statistical' && <Statistical />}
-      {menu === 'manager' && <Manager />} */}
+      {menu === 'statistical' && <Statistical />}
+      {/* {menu === 'manager' && <Manager />} */}
 
     </div>
   )

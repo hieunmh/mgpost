@@ -10,7 +10,7 @@ import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 
 import axios from 'axios';
-import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 export default function TranStaffSidebar({}) {

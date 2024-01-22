@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import { LuPackagePlus } from 'react-icons/lu';
-import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import CreateParcel from './CreateParcel';
 import { usePage } from '@/hooks/parcel/tran/useTranPage';

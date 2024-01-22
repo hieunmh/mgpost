@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import { useSessionContext } from '@supabase/auth-helpers-react';
@@ -9,7 +9,7 @@ import Statistical from './Statistical';
 import Manager from './Manager';
 import { useAllTranStaff } from '@/hooks/manager/tran/userAllTranStaff';
 import { useAllTranStaffPage } from '@/hooks/manager/tran/useAllTranStaffPage';
-import { useStatisticalPage } from '@/hooks/manager/tran/useStatisticalPage';
+import { useTranStatisticalPage } from '@/hooks/manager/tran/useTranStatisticalPage';
 
 
 export default function TranHead() {
@@ -22,10 +22,11 @@ export default function TranHead() {
   const { allTranStaff, setAllTranStaff } = useAllTranStaff();
   const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useAllTranStaffPage();
 
-  const useTranStatistical= useStatisticalPage();
+  const useTranStatistical= useTranStatisticalPage();
 
   const { supabaseClient } = useSessionContext();
 
+  // get all parcel transaction realtime
   useEffect(() => {
     const fetchAllParcel = async () => {
       const channel = supabaseClient.channel('realtime parcel')
@@ -37,7 +38,7 @@ export default function TranHead() {
         async (payload: any) => {
           const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
           setAllParcel(res.data.data);
-          res.data.data.length / perPage === Math.floor(res.data.data.length / perPage) ?
+          res.data.data.length / useTranStatistical.perPage === Math.floor(res.data.data.length / useTranStatistical.perPage) ?
           useTranStatistical.setNumberPage(res.data.data.length / perPage) 
           : useTranStatistical.setNumberPage(Math.floor(res.data.data.length / perPage) + 1);
         }
@@ -49,6 +50,7 @@ export default function TranHead() {
     fetchAllParcel();
   })
   
+  // get all parcel in transaction
   useEffect(() => {
     const getAllParcel = async () => {
       const res = await axios.get(`api/parcel/getParcelInTransaction?userID=${userInfo?.id}`);
@@ -64,6 +66,7 @@ export default function TranHead() {
     
   }, []);
 
+  //get transaction information
   useEffect(() => {
     const getTranInfo = async () => {
       const res = (await axios.get(`api/transaction/getTranInfo?userID=${userInfo?.id}`)).data;
@@ -75,6 +78,7 @@ export default function TranHead() {
     }
   }, []);
 
+  // get all staff in transaction
   useEffect(() => {
     const getAllTranStaff = async () => {
       const res = (await axios.get(`api/transaction/getAllTranStaff?userID=${userInfo?.id}`)).data;

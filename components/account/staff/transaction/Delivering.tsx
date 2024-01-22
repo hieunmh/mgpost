@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import { useCreateParcel } from '@/hooks/parcel/useCreateParcel';
 import { useTranParcelDetail } from '@/hooks/parcel/tran/useTranParcelDetail';
 import { usePage } from '@/hooks/parcel/tran/useTranPage';

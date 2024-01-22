@@ -4,17 +4,16 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 import { Doughnut } from 'react-chartjs-2'
 
-import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import { FaEye } from 'react-icons/fa';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { useTranStatisticalPage } from '@/hooks/manager/tran/useTranStatisticalPage';
+import { useAggStatisticalPage } from '@/hooks/manager/agg/useAggStatisticalPage';
 import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
 
 export default function Statistical() {
 
   const { allParcel, setAllParcel } = useAllAggParcel(); 
-  const { page, perPage, numberPage, setPage, setNumberPage } = useTranStatisticalPage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useAggStatisticalPage();
 
   const inwarehouse = allParcel.filter(parcel => parcel.status === 'In warehouse').length;
 
@@ -43,6 +42,8 @@ export default function Statistical() {
       },
     },
   };
+
+
 
   return (
     <motion.div initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} 

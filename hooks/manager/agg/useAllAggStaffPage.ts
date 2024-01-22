@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-interface useStatisticalPageType {
+interface usePerPageType {
   page: number;
   perPage: number;
   numberPage: number;
@@ -9,7 +9,7 @@ interface useStatisticalPageType {
   setPerPage: (perPage: number) => void;
 }
 
-export const useStatisticalPage = create<useStatisticalPageType>(set => ({
+export const useAllAggStaffPage = create<usePerPageType>(set => ({
   page: 1,
   numberPage: 0,
   perPage: 2,

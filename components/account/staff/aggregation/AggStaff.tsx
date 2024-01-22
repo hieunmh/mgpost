@@ -1,6 +1,6 @@
 import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
 import React, { useEffect } from 'react';
-import { useAllParcel } from '@/hooks/parcel/useAllParcel';
+import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
 import { usePage } from '@/hooks/parcel/tran/useTranPage';
