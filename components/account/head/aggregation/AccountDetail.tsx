@@ -4,12 +4,15 @@ import { IoClose } from 'react-icons/io5';
 import { AggregationType, TransactionType, UserInfoType } from '@/types/type';
 import Image from 'next/image';
 import { useAggAccountDetail } from '@/hooks/manager/agg/useAccountDetail';
+import { useAggStaffDetail } from '@/hooks/manager/agg/useAggStaffDetail';
 
 type accountDetail = UserInfoType & { aggregation: AggregationType }
 
-export default function AccountDetail({ account } : { account: accountDetail }) {
+export default function AccountDetail() {
 
   const { setIsOpenDetail } = useAggAccountDetail();
+
+  const { staffDetail, setStaffDetail } = useAggStaffDetail();
 
   return (
     <div className='h-screen w-screen fixed top-0 left-0 bg-transparent transition
@@ -37,7 +40,7 @@ export default function AccountDetail({ account } : { account: accountDetail }) 
             text-xl flex items-center justify-center sm:space-x-2'
           >
             <span className='sm:block hidden'>Staff code:</span>
-            <p>MG-{account?.id.slice(-12)}</p>
+            <p>MG-{staffDetail?.id.slice(-12)}</p>
           </div>
 
           <div className='w-full text-gray-300 rounded-xl bg-gray-200/5 p-5 h-fit
@@ -45,20 +48,20 @@ export default function AccountDetail({ account } : { account: accountDetail }) 
           >
             <div className='w-full h-fit flex'>
               <p className='w-full flex items-center py-5'>Name:</p>
-              <p className='w-full flex items-center py-5'>{account?.name}</p>
+              <p className='w-full flex items-center py-5'>{staffDetail?.name}</p>
             </div>
 
             <div className='w-full h-fit flex'>
               <p className='w-full flex items-center py-5'>Email:</p>
-              <p className='w-full flex items-center py-5'>{account?.email}</p>
+              <p className='w-full flex items-center py-5'>{staffDetail?.email}</p>
             </div>
 
             <div className='w-full h-fit flex'>
               <p className='w-full flex items-center py-5'>Phone:</p>
               <p className='w-full flex items-center py-5'>
-                (+84) {account?.phone?.substring(2, 5)} {' '}
-                {account?.phone?.substring(5, 8)} {' '}
-                {account?.phone?.substring(8, 11)}
+                (+84) {staffDetail?.phone?.substring(2, 5)} {' '}
+                {staffDetail?.phone?.substring(5, 8)} {' '}
+                {staffDetail?.phone?.substring(8, 11)}
               </p>
             </div>
           </div>

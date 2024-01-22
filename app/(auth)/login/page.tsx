@@ -64,7 +64,7 @@ export default function Login() {
       if (searchparam.get('redirect')) {
         router.push(searchparam.get('redirect') as string);
       } else {
-        router.refresh();
+        // router.refresh();
         location.reload();
         router.push('/');
       }
