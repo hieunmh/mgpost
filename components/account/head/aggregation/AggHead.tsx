@@ -8,6 +8,8 @@ import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import { useAllAggStaffPage } from '@/hooks/manager/agg/useAllAggStaffPage';
 import { useAggStatisticalPage } from '@/hooks/manager/agg/useAggStatisticalPage';
+import Manager from './Manager';
+import { useAllAggStaff } from '@/hooks/manager/agg/useAllAggStaff';
 
 export default function AggHead() {
 
@@ -21,7 +23,7 @@ export default function AggHead() {
   const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useAllAggStaffPage();
 
   const useAggStatistical = useAggStatisticalPage();
-
+  const { allAggStaff, setAllAggStaff } = useAllAggStaff();
 
   // get aggregation info
   useEffect(() => {
@@ -40,14 +42,18 @@ export default function AggHead() {
   useEffect(() => {
     const getAllAggStaff = async () => {
       const res = (await axios.get(`api/aggregation/getAllAggStaff?userID=${userInfo?.id}`)).data;
+      setAllAggStaff(res.data);
 
-      console.log(res.data);
+      res.data.length / perPage === Math.floor(res.data.length / perPage) ?
+      setNumberPage(res.data.length / perPage) : setNumberPage(Math.floor(res.data.length / perPage) + 1);
     }
 
-    getAllAggStaff();
+    if (allAggStaff.length === 0) {
+      getAllAggStaff();
+    }
   }, []);
 
-  
+
   // get all parcel in aggregation
   useEffect(() => {
     const getAllParcel = async () => {
@@ -111,8 +117,7 @@ export default function AggHead() {
       )}
 
       {menu === 'statistical' && <Statistical />}
-      {/* {menu === 'manager' && <Manager />} */}
-
+      {menu === 'manager' && <Manager />}
     </div>
   )
 }
