@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
+import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
 import { useAggParcelDetail } from '@/hooks/parcel/agg/useAggParcelDetail';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
@@ -16,7 +16,7 @@ import { useAggPage } from '@/hooks/parcel/agg/useAggPage';
 
 export default function IncomingParcel() {
 
-  const { allParcel, setAllParcel } = useAllParcel();
+  const { allParcel, setAllParcel } = useAllAggParcel();
   const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
   const { page, perPage, numberPage, setPage, setNumberPage } = useAggPage();
 

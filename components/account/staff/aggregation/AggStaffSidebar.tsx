@@ -10,16 +10,16 @@ import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import { useSessionContext } from '@supabase/auth-helpers-react';
 
 import axios from 'axios';
-import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
-import { usePage } from '@/hooks/parcel/tran/useTranPage';
+import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
+import { useAggPage } from '@/hooks/parcel/agg/useAggPage';
 
-export default function TranStaffSidebar({}) {
+export default function AggStaffSidebar({}) {
 
   const { userInfo } = useUser();
 
   const { menu, setMenu } = useAggStaff();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
-  const { allParcel, setAllParcel } = useAllParcel();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useAggPage();
+  const { allParcel, setAllParcel } = useAllAggParcel();
 
   const { supabaseClient } = useSessionContext();
 

@@ -1,9 +1,8 @@
-import { useTransactionStaff } from '@/hooks/menustaff/useTranStaff';
 import React, { useEffect } from 'react';
-import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
+import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
 import axios from 'axios';
 import { useUser } from '@/hooks/useUser';
-import { usePage } from '@/hooks/parcel/tran/useTranPage';
+import { useAggPage } from '@/hooks/parcel/agg/useAggPage';
 import Parcel from './Parcel';
 import { useAggStaff } from '@/hooks/menustaff/useAggStaff';
 import IncomingParcel from './IncomingParcel';
@@ -17,13 +16,15 @@ export default function TranStaff() {
 
   const { userInfo } = useUser();
 
-  const { allParcel, setAllParcel } = useAllParcel();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { allParcel, setAllParcel } = useAllAggParcel();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useAggPage();
   const { allTranByAgg, setAllTranByAgg } = useAllTranByAgg();  
   const { allAgg, setAllAgg } = useAllAgg();
 
   const { aggInfo, setAggInfo } = useAggInfo();
   
+
+  // get all parcel in aggregation
   useEffect(() => {
     const getAllParcel = async () => {
       const res = await axios.get(`api/parcel/getParcelInAggregation?userID=${userInfo?.id}`);
@@ -38,6 +39,8 @@ export default function TranStaff() {
     
   }, []);
 
+
+  // get all transaction by Agg
   useEffect(() => {
     const getAllTranByAgg = async () => {
       const res = (await axios.get(`api/transaction/getAllTranByAgg?userID=${userInfo?.id}`)).data;
@@ -49,6 +52,8 @@ export default function TranStaff() {
     }
   }, []);
 
+
+  // get all agg point
   useEffect(() => {
     const getAllAgg = async () => {
       const res = (await axios.get(`api/aggregation/getAllAgg?userID=${userInfo?.id}`)).data;
@@ -60,6 +65,8 @@ export default function TranStaff() {
     }
   }, [])
 
+  
+  // get agg information
   useEffect(() => {
     const getAggInfo = async () => {
       const res = (await axios.get(`api/aggregation/getAggInfo?userID=${userInfo?.id}`)).data;

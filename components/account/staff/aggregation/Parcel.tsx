@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import { useAllParcel } from '@/hooks/parcel/tran/useAllParcel';
+import { useAllAggParcel } from '@/hooks/parcel/agg/useAllAggParcel';
 
 import { useAggParcelDetail } from '@/hooks/parcel/agg/useAggParcelDetail';
-import { usePage } from '@/hooks/parcel/tran/useTranPage';
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { FaEye } from 'react-icons/fa';
@@ -14,13 +13,14 @@ import { PackageDetailsType, PackageStatusType, PackageType } from '@/types/type
 import ParcelDetail from './ParcelDetail';
 import { useAggNextAddress } from '@/hooks/parcel/agg/useAggNextAddress';
 import NextAddress from './NextAddress';
+import { useAggPage } from '@/hooks/parcel/agg/useAggPage';
 
 
 export default function Parcel() {
 
-  const { allParcel, setAllParcel } = useAllParcel();
+  const { allParcel, setAllParcel } = useAllAggParcel();
   const { isOpenDetail, setIsOpenDetail } = useAggParcelDetail();
-  const { page, perPage, numberPage, setPage, setNumberPage } = usePage();
+  const { page, perPage, numberPage, setPage, setNumberPage } = useAggPage();
   const { isOpenNextAddress, setIsOpenNextAddress } = useAggNextAddress();
 
   const [parcelDetail, setParcelDetail] = useState<
