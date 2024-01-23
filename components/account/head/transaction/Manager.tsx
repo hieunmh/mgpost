@@ -57,7 +57,7 @@ export default function Manager() {
         <div className='flex justify-between items-center text-center'>
           <p className='font-extrabold text-base sm:text-3xl'>Manager</p>
           <button className='flex font-medium items-center justify-center 
-            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-3'
+            space-x-2 bg-[#5c9ead] hover:bg-[#5c9ead]/85 rounded px-2 py-1 sm:px-6 sm:py-2'
             onClick={() => setIsOpen(true)}
           >
             <FaUserPlus className='mb-1 sm:text-[24px]' />

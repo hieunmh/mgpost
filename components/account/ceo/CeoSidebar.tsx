@@ -50,9 +50,9 @@ export default function Ceo({}) {
           </div>
         </div>
 
-        <div className='px-3 lg:px-5 text-gray-300 font-semibold truncate`'>
+        {/* <div className='px-3 lg:px-5 text-gray-300 font-semibold truncate`'>
           {userInfo?.name}
-        </div>
+        </div> */}
       </div>
 
 
