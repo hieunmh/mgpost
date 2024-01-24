@@ -5,13 +5,17 @@ import axios from 'axios';
 import { useAllHead } from '@/hooks/ceo/useAllHead';
 import { MdEdit, MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { useManagerHeadPage } from '@/hooks/ceo/useManagerHeadPage';
+import { useHeadDetail } from '@/hooks/ceo/useHeadDetail';
+import { useShowHeadDetail } from '@/hooks/ceo/useShowHeadDetail';
+import HeadDetail from './HeadDetail';
 
 export default function Manager() {
 
 
   const { allHead, setAllHead } = useAllHead();
   const { page, perPage, numberPage, setPage, setPerPage, setNumberPage } = useManagerHeadPage();
-
+  const { headDetail, setHeadDetail } = useHeadDetail()
+  const { isOpen, setIsOpen } = useShowHeadDetail();
 
 
   // get all head
@@ -102,6 +106,8 @@ export default function Manager() {
                     <div className='w-[90px] space-x-1 flex items-center justify-center'>
                       <button className='flex items-center justify-center p-2 rounded-md bg-[#242424]/50'
                         onClick={() => {
+                          setHeadDetail(head);
+                          setIsOpen(true);
                         }}
                       >
                         <FaEye size={15} />
@@ -152,6 +158,8 @@ export default function Manager() {
           )}
         </div>
       </div>
+
+      {isOpen && <HeadDetail />}
     </motion.div>
   )
 }
