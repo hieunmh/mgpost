@@ -10,32 +10,31 @@ import { IoClose } from 'react-icons/io5';
 
 import Status from './Status';
 import { useParcelStatus } from '@/hooks/useParcelStatus';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useSessionContext } from '@supabase/auth-helpers-react';
 
-type ParcelStatusForm = {
-  parcelCode: string;
-}
 
 export default function ParcelStatus() {
 
   let [loading, setLoading] = useState<boolean>(false);
 
-
   let [height, setHeight] = useState<number>(168);
+  
+  let [parcelCode, setParcelCode] = useState<string>('');
 
-  const { register, handleSubmit } = useForm<ParcelStatusForm>();
-
-  const { showParcelStatus, setShowParcelStatus } = useParcelStatus();
+  const { showParcelStatus, setShowParcelStatus } = useParcelStatus();  
+  const { supabaseClient } = useSessionContext();
 
   let [parcelStatus, setParcelStatus] = 
     useState<PackageType & { packageDetails: PackageDetailsType, packageStatus: PackageStatusType[]} | null>(null);
 
-
-  const getParcel: SubmitHandler<ParcelStatusForm> = async (formData) => {
-    if (!formData.parcelCode) return;
+  const getParcel= async () => {
+    if (!parcelCode) {
+      toast('Please enter your parcel code!');
+      return;
+    };
 
     setLoading(true);
-    const res = await axios.get(`/api/parcel/parcelStatus?code=${formData.parcelCode.toUpperCase()}`);
+    const res = await axios.get(`/api/parcel/parcelStatus?code=${parcelCode.toUpperCase()}`);
 
     if (res.data.error) {
       toast.error('Parcel not found!')
@@ -46,6 +45,26 @@ export default function ParcelStatus() {
 
     setLoading(false);
   }
+
+  useEffect(() => {
+    const fetchParcel = () => {
+      const channel = supabaseClient.channel('get parcel stt realtime')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'packages',
+      },
+      async (payload) => {
+        const res = await axios.get(`/api/parcel/parcelStatus?code=${parcelCode.toUpperCase()}`);
+        setParcelStatus(res.data.data);
+      }
+      ).subscribe();
+
+      return () => supabaseClient.removeChannel(channel);
+    }
+
+    fetchParcel();
+  })
 
   useEffect(() => {
     if (parcelStatus && parcelStatus.packageStatus.length) {
@@ -65,12 +84,12 @@ export default function ParcelStatus() {
             <span className='text-[#5c9ead] underline cursor-pointer'>code</span> below
           </p>
 
-          <form className='flex items-center justify-center space-x-4'>
-            <input type='text' placeholder='Enter your parcel code' {...register('parcelCode')}
+          <div className='flex items-center justify-center space-x-4'>
+            <input type='text' placeholder='Enter your parcel code' onChange={(e) => setParcelCode(e.target.value)}
               className='py-3 px-5 outline-none h-12 text-xs sm:text-base font-semibold 
               rounded bg-neutral-500/50 text-gray-200 w-[500px]'
             />
-            <button onClick={handleSubmit(getParcel)} className=' bg-gray-200 h-12 px-4 rounded'>
+            <button onClick={getParcel} className='bg-gray-200 h-12 px-4 rounded'>
               {loading ? (
                 <div className='h-[24px] w-[24px] items-center flex justify-center'>
                   <svg viewBox="0 0 100 100" className='loading h-full stroke-[#363636]'>
@@ -83,7 +102,7 @@ export default function ParcelStatus() {
                 </div>
               )}
             </button>
-          </form>
+          </div>
         </div>
 
         <div className='w-full lg:px-10 my-5 rounded flex items-center justify-center'>

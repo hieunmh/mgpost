@@ -28,7 +28,7 @@ export default function TranHead() {
 
   // get all parcel transaction realtime
   useEffect(() => {
-    const fetchAllParcel = async () => {
+    const fetchAllParcel =  () => {
       const channel = supabaseClient.channel('realtime parcel')
       .on('postgres_changes', {
           event: '*',
