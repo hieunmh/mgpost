@@ -8,7 +8,7 @@ export default function Statistical() {
       className='w-full h-[calc(100vh-184px)] sm:h-[calc(100vh-216px)] rounded bg-neutral-500/10 p-3 sm:p-5'
     >
       <div className='w-full h-full rounded text-gray-300 flex flex-col space-y-5'>
-
+          Statistical
       </div>
     </motion.div>
   )
